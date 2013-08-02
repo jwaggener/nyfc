@@ -2,6 +2,8 @@
 * nyfc - Name Your Favorite Color
 * This database contains our nyfc objects
 *	id
+* created_at
+* updated_at
 *	name - string. name of color given by user
 *	color: {
 *	hex: ffffff - string
@@ -27,6 +29,7 @@ c = new(cradle.Connection)('http://127.0.0.1', 5984, {
 
 var nyfc = exports.nyfc = c.database('nyfc');
 
+// if the database exists use it. If not create it.
 nyfc.exists(function (err, exists) {
 	if (err) {
 		console.log('error', err);
@@ -36,5 +39,20 @@ nyfc.exists(function (err, exists) {
 		console.log('database does not exists. creating the database');
 		nyfc.create();
 		/* populate design documents */
+	}
+});
+
+/*allNYFCs = nyfc.view('nyfc/all', function (err, res) {
+	console.log('err', err);
+	console.log('res', res);
+	return res;
+});*/
+
+//creating the views on the data
+nyfc.save('_design/nyfc', {
+	all: {
+		map: function (doc) {
+			if (doc.name && doc.color) emit(doc.name, doc);
+		}
 	}
 });
