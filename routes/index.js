@@ -4,5 +4,16 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+  res.locals = {
+    title: 'Name Your Favorite Color',
+  };
+  return res.render(
+    'master-layout',
+    {
+      partials:
+      {
+        pageContent: 'index',
+      }
+    }
+  );
 };
