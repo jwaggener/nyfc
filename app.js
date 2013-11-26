@@ -18,7 +18,7 @@ app.locals.delimiters = '<% %>';
 
 // all environments
 app.set('port', process.env.PORT || 3000);
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/app/views');
 app.set('view engine', 'html');
 app.use(express.favicon());
 app.use(express.logger('dev'));
@@ -34,8 +34,9 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+
+//Bootstrap routes
+require('./config/routes')(app);
 
 http.createServer(app).listen(app.get('port'), function(){
   	console.log('Express server listening on port ' + app.get('port'));

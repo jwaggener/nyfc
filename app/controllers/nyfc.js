@@ -1,9 +1,6 @@
+//GET home page.
 
-/*
- * GET home page.
- */
-
-exports.index = function(req, res){
+exports.index = exports.create = function(req, res){
   res.locals = {
     title: 'Name Your Favorite Color',
   };
