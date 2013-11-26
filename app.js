@@ -4,6 +4,7 @@
  */
 
 var express = require('express')
+  , db = require('./db/nyfc')
   , http = require('http')
   , path = require('path');
 

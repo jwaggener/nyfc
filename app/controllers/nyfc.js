@@ -1,6 +1,6 @@
 //GET home page.
-
-exports.index = exports.create = function(req, res){
+var db = require('../../db/nyfc');
+exports.index = exports.show = function(req, res){
   res.locals = {
     title: 'Name Your Favorite Color',
   };
@@ -14,3 +14,8 @@ exports.index = exports.create = function(req, res){
     }
   );
 };
+
+exports.create = function (req, res) {
+  console.log('db', db);
+  console.log('req.param(name)', req.param('name'));
+}
