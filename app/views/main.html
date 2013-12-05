@@ -1,9 +1,16 @@
-<div ng-controller='MainCtrl'> 
+<div>
   <h1>{{ title }}</h1>
   <p>Welcome to {{ title }}</p>
-
-  <label>Enter A Color String:</label>
-  <input type="text" ng-model="colorString" placeholder="Enter a color string here">
+  <label>Name Your Favorite Color:</label><br/>
+  <input type="text" ng-model="colorValue" placeholder="Select Your Color!"><br/>
+  <input type="text" ng-model="colorName" placeholder="Name Your Color!"><br/>
   <hr>
-  <h1>Your Color Is {{colorString}}</h1>
+  <h1>{{colorName}} : {{colorValue}}</h1>
+  <button ng-click='submitColor()'>Name Your Color!</button>
+  <hr>
+  <ul ng-repeat='color in colors'>
+    <li>
+      {{ color.name }} : {{ color.color }}
+    </li>
+  </ul>
 </div>
