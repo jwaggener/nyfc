@@ -7,10 +7,14 @@
   <hr>
   <h1>{{colorName}} : {{colorValue}}</h1>
   <button ng-click='submitColor()'>Name Your Color!</button>
-  <hr>
-  <ul ng-repeat='color in colors'>
-    <li>
-      {{ color.name }} : {{ color.color }}
-    </li>
-  </ul>
+	<hr>
+	<div>
+		<div ng-repeat='color in colors' style='width:100px;height:100px;background-color:#{{color.color}};float:left'>
+			<span>{{ color.name }}</span>
+		</div>
+	</div>
+	<div>
+		<button ng-click='previousPage()' ng-disabled='{{disabled}}'>Previous</button>
+		<button ng-click='nextPage()' ng-disabled='{{disabled}}'>Next</button>
+	</div>
 </div>
