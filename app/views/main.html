@@ -1,20 +1,50 @@
 <div>
-  <h1>{{ title }}</h1>
-  <p>Welcome to {{ title }}</p>
-  <label>Name Your Favorite Color:</label><br/>
-  <input type="text" ng-model="colorValue" placeholder="Select Your Color!"><br/>
-  <input type="text" ng-model="colorName" placeholder="Name Your Color!"><br/>
-  <hr>
-  <h1>{{colorName}} : {{colorValue}}</h1>
-  <button ng-click='submitColor()'>Name Your Color!</button>
-	<hr>
-	<div>
-		<div ng-repeat='color in colors' style='width:150px;height:150px;background-color:#{{color.color}};float:left'>
-			<span>{{ color.name }}</span>
+	<h1>{{ title }}</h1>
+	<p>Welcome to {{ title }}</p>
+</div>
+
+<div>
+	<!-- Choose a Color -->
+	<div style='float:left;'>
+	  <label for='colorPicker'>Pick a Color:</label><br/>
+		<div name='colorPicker'>
+			<nyfc-spectrum></nyfc-spectrum>
 		</div>
 	</div>
-	<div>
-		<button ng-click='previousPage()' ng-disabled='{{disabled}}'>Previous</button>
-		<button ng-click='nextPage()' ng-disabled='{{disabled}}'>Next</button>
+	
+	<!-- Add the name and submit-->
+	<div style='float:left;'>
+		<label for='colorNamer'>Name Your Color:</label><br/>
+		<input type="text" ng-model="colorName" placeholder="Name Your Color!" name='colorNamer'><br/>
+		<button ng-click='submitColor()'>CREATE!</button>
+	</div>
+	
+	<!-- A Preview -->
+	<div style='width:9em;height:9em;background-color:{{selectedRgbString}};float:left'>
+		<span>{{colorName}}</span>
+	</div>
+ 
+</div>
+
+<hr style='clear:left;'>
+
+<div style='clear:left;'>
+	<button ng-click='previousPage()' ng-disabled='{{disabled}}'>Previous</button>
+	<button ng-click='nextPage()' ng-disabled='{{disabled}}'>Next</button>
+</div>
+
+<div style='clear:left;'>
+	<div ng-repeat='color in colors' style='float:left'>
+		<div style='margin:.47em;width:9em;height:9em;background-color:{{color.color}};'>
+			<span>{{ color.name }}</span>
+		</div>
+		<span>{{ color.name }}</span>
 	</div>
 </div>
+
+<div style='clear:left;'>
+	<button ng-click='previousPage()' ng-disabled='{{disabled}}'>Previous</button>
+	<button ng-click='nextPage()' ng-disabled='{{disabled}}'>Next</button>
+</div>
+	
+

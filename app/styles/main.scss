@@ -5,12 +5,14 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
-    color: #000;
+    color: #FFF;
     padding: 0.2em 0;
 }
 
 /* Space out content a bit */
 body {
+		background-color: black;
+		color: white;
     padding-top: 20px;
     padding-bottom: 20px;
 }

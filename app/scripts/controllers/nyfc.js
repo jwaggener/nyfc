@@ -4,16 +4,15 @@ angular.module('nyfcApp')
   .controller('MainCtrl', function ($scope, NYFCFirebase) {
     $scope.title = 'Name Your Favorite Color';
 		$scope.disabled = false;
-		
+		$scope.selectedRgbString = 'ccc';
 		//create a query for the initial load - grab the last 5 objects  NYFCFirebase.endAt().limit(5);
 		//load that query and save the key for the first object of the next page; increase the limit by one
 		//retrieve the next page by using that key like this... NYFCFirebase.endAt(null, '-JA3MuTS_xHMe8TymKwR').limit(6);
 		//you'll have to discard the repeated object
 		$scope.pageKeys = [null],
-		$scope.LIMIT = 10, // items per page 
+		$scope.LIMIT = 20, // items per page 
 		$scope.currentPage = 0,
 		$scope.colors = []; // the colors currently displayed to the user
-			
 		$scope.loadPage = function () {
 			// the limit is increased by one with page loads for pages other than than the first page
 			var limit = ($scope.currentPage) ? $scope.LIMIT + 1 : $scope.LIMIT;
@@ -75,11 +74,14 @@ angular.module('nyfcApp')
 		}
 		
     $scope.submitColor = function (event) {
+			console.log('$scope.colorName', $scope.colorName);
+			console.log('$scope.selectedRgbString', $scope.selectedRgbString);
       NYFCFirebase.push({ 
 				name: $scope.colorName,
-				color: $scope.colorValue,
+				color: $scope.selectedRgbString,
 				created_at: Firebase.ServerValue.TIMESTAMP,
-				updated_at: Firebase.ServerValue.TIMESTAMP
+				updated_at: Firebase.ServerValue.TIMESTAMP,
+				adult_content: false
 				});
     };
 
