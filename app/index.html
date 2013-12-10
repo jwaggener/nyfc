@@ -9,6 +9,11 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+    
+    <!-- Opengraph information -->
+    <meta property="og:site_name" content="Name Your Favorite Color">
+    <meta property="og:image" content="">
+    
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
         <!-- build:css({.tmp,app}) styles/main.css -->
@@ -26,6 +31,31 @@
       <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
 
+    
+    <!-- Facebook SDK. Downloads and creates global FB -->
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        // init the FB JS SDK
+        FB.init({
+          appId      : '463079237130162', // App ID from the app dashboard
+          status     : true,              // Check Facebook Login status
+          xfbml      : false              // Look for social plugins on the page
+        });
+
+        // Additional initialization code such as adding Event Listeners goes here
+      };
+
+      // Load the SDK asynchronously
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/all.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+    
     <!-- Add your site or application content here -->
     <div class="container" ng-view=""></div>
 
