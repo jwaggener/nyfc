@@ -16,6 +16,7 @@ angular.module('nyfcApp')
 				move: function (color) {// maybe shoud be changed to 'change'
 					$scope.selectedTinyColor = color;
 					$scope.selectedRgbString = color.toRgbString();
+					$scope.selectedHsl = color.toHsl();
 					$scope.safeApply();
 				}
 			});

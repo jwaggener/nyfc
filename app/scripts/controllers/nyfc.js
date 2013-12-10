@@ -74,14 +74,15 @@ angular.module('nyfcApp')
 		}
 		
     $scope.submitColor = function (event) {
-			console.log('$scope.colorName', $scope.colorName);
-			console.log('$scope.selectedRgbString', $scope.selectedRgbString);
       NYFCFirebase.push({ 
-				name: $scope.colorName,
-				color: $scope.selectedRgbString,
-				created_at: Firebase.ServerValue.TIMESTAMP,
-				updated_at: Firebase.ServerValue.TIMESTAMP,
-				adult_content: false
+				name: $scope.colorName, // the name
+				color: $scope.selectedRgbString, // the color as a string rgb(val,val,val)
+				created_at: Firebase.ServerValue.TIMESTAMP, //creates a timestamp on firebase
+				updated_at: Firebase.ServerValue.TIMESTAMP, //creates a timestamp on firebase
+				adult_content: false, // naughty?
+				h: Math.round($scope.selectedHsl.h * 1000)/1000,
+				s: Math.round($scope.selectedHsl.s * 1000)/1000,
+				l: Math.round($scope.selectedHsl.l * 1000)/1000
 				});
     };
 
