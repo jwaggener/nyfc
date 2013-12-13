@@ -1,10 +1,26 @@
 'use strict';
 //the main controller for the app
 angular.module('nyfcApp')
-  .controller('MainCtrl', function ($scope, NYFCFirebase) {
+  .controller('MainCtrl', function ($scope, $routeParams, $http, NYFCFirebase) {
     $scope.title = 'Name Your Favorite Color';
-		$scope.disabled = false;
-		$scope.selectedRgbString = 'ccc';
+		$scope.showDetail = false;
+		
+		console.log('initiating the controller');
+		
+		$scope.getNyfcColor = function (id) {
+			$http.get(
+				'https://nyfc.firebaseio.com/colors/' + $routeParams.id + '.json'
+			).success(function(data, status, headers, config){
+				$scope.detailColor = data.color;
+				$scope.detailName = data.name;
+				$scope.showDetail = true;
+				$scope.safeApply();
+			}).error(function(data, status, headers, config){
+				console.log('status', status);
+			});
+		}
+		
+		//pagination...
 		//create a query for the initial load - grab the last 5 objects  NYFCFirebase.endAt().limit(5);
 		//load that query and save the key for the first object of the next page; increase the limit by one
 		//retrieve the next page by using that key like this... NYFCFirebase.endAt(null, '-JA3MuTS_xHMe8TymKwR').limit(6);
@@ -30,9 +46,6 @@ angular.module('nyfcApp')
 			});
 		}
 		
-		//start the app by loading the page
-		$scope.loadPage();
-		
 		// set the name that is going to be used with the next call to firebase to retrieve documents
 		$scope.setKey = function (data) {
 			for (var key in data) {
@@ -49,6 +62,7 @@ angular.module('nyfcApp')
 			var arr = [];
 			for (var key in data) {
 			  if (data.hasOwnProperty(key)) {
+					data[key].id = key;
 			    arr.unshift(data[key]);
 			  }
 			}
@@ -85,7 +99,7 @@ angular.module('nyfcApp')
 				l: Math.round($scope.selectedHsl.l * 1000)/1000
 				});
     };
-
+		
     //a monkey patch that checks to see if an $apply is in process before calling it
     $scope.safeApply = function(fn) {
       var phase = this.$root.$$phase;
@@ -97,4 +111,11 @@ angular.module('nyfcApp')
         this.$apply(fn);
       }
     };
+		
+		//start the app by checking to see if an individual color needs to be displayed and then loading the page
+		if ($routeParams.id) {
+			$scope.getNyfcColor($routeParams.id);
+		}
+		$scope.loadPage();
+		
   });

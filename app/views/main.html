@@ -3,7 +3,14 @@
 	<p>Welcome to {{ title }}</p>
 </div>
 
-<div>
+<div ng-controller='test'></div>
+
+<!-- A Preview -->
+<div ng-show='showDetail' style='width:9em;height:9em;background-color:{{detailColor}};float:left'>
+	<span>{{detailName}}</span>
+</div>
+
+<div style='clear:left;'>
 	<!-- Choose a Color -->
 	<div style='float:left;'>
 	  <label for='colorPicker'>Pick a Color:</label><br/>
@@ -38,7 +45,7 @@
 		<div style='margin:.47em;width:9em;height:9em;background-color:{{color.color}};'>
 			<span>{{ color.name }}</span>
 		</div>
-		<span>{{ color.name }}</span>
+		<span><a href='http://127.0.0.1:9000/#/{{color.id}}'>{{ color.name }}</a></span>
 	</div>
 </div>
 
