@@ -1,18 +1,14 @@
 'use strict';
 //the main controller for the app
 angular.module('nyfcApp')
-  .controller('MainCtrl', function ($scope, $routeParams, $http, NYFCFirebase) {
+  .controller('MainCtrl', function ($scope, $routeParams, $http, AppState, NYFCFirebase) {
     $scope.title = 'Name Your Favorite Color';
-		$scope.showDetail = false;
-		
-		console.log('initiating the controller');
 		
 		$scope.getNyfcColor = function (id) {
 			$http.get(
 				'https://nyfc.firebaseio.com/colors/' + $routeParams.id + '.json'
 			).success(function(data, status, headers, config){
-				$scope.detailColor = data.color;
-				$scope.detailName = data.name;
+				$scope.detailobj = data;
 				$scope.showDetail = true;
 				$scope.safeApply();
 			}).error(function(data, status, headers, config){
@@ -25,16 +21,14 @@ angular.module('nyfcApp')
 		//load that query and save the key for the first object of the next page; increase the limit by one
 		//retrieve the next page by using that key like this... NYFCFirebase.endAt(null, '-JA3MuTS_xHMe8TymKwR').limit(6);
 		//you'll have to discard the repeated object
-		$scope.pageKeys = [null],
 		$scope.LIMIT = 20, // items per page 
-		$scope.currentPage = 0,
 		$scope.colors = []; // the colors currently displayed to the user
 		$scope.loadPage = function () {
 			// the limit is increased by one with page loads for pages other than than the first page
-			var limit = ($scope.currentPage) ? $scope.LIMIT + 1 : $scope.LIMIT;
+			var limit = (AppState.getCurrentPage()) ? $scope.LIMIT + 1 : $scope.LIMIT;
 			//if the current page is any other than 0, we have to retrieve with a record name
-			if( $scope.currentPage ) {
-				$scope.query = NYFCFirebase.endAt(null, $scope.pageKeys[$scope.currentPage]).limit(limit);
+			if( AppState.getCurrentPage() ) {
+				$scope.query = NYFCFirebase.endAt(null, AppState.getKey(AppState.getCurrentPage())).limit(limit);
 			} else {
 				$scope.query = NYFCFirebase.endAt().limit(limit);
 			}
@@ -50,11 +44,10 @@ angular.module('nyfcApp')
 		$scope.setKey = function (data) {
 			for (var key in data) {
 			  if (data.hasOwnProperty(key)) {
-					$scope.pageKeys.push(key);
+					AppState.addKey(key);
 			  }
 				break;
 			}
-			$scope.pageKeys = _.uniq($scope.pageKeys);
 		}
 		
 		// create an array of colors from the object returned from firebase
@@ -67,7 +60,7 @@ angular.module('nyfcApp')
 			  }
 			}
 			//any other page than the first page, 0
-			if ($scope.currentPage) {
+			if (AppState.getCurrentPage()) {
 				arr.splice(0,1);
 			}
 			$scope.colors = arr;
@@ -75,15 +68,15 @@ angular.module('nyfcApp')
 		}
 		
 		$scope.nextPage = function () {
-			$scope.currentPage++;
+			AppState.setCurrentPage(AppState.getCurrentPage() + 1);
 			$scope.loadPage();
 		}
 		
 		$scope.previousPage = function () {
-			if ($scope.currentPage - 1 < 0 ){
+			if (AppState.getCurrentPage() - 1 < 0 ){
 				return;
 			}
-			$scope.currentPage--;
+			AppState.setCurrentPage(AppState.getCurrentPage() - 1);
 			$scope.loadPage();
 		}
 		
@@ -116,6 +109,7 @@ angular.module('nyfcApp')
 		if ($routeParams.id) {
 			$scope.getNyfcColor($routeParams.id);
 		}
+		$scope.showDetail = ($routeParams.id);
 		$scope.loadPage();
 		
   });

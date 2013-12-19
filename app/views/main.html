@@ -3,13 +3,8 @@
 	<p>Welcome to {{ title }}</p>
 </div>
 
-<div ng-controller='test'></div>
 
-<!-- A Preview -->
-<div ng-show='showDetail' style='width:9em;height:9em;background-color:{{detailColor}};float:left'>
-	<span>{{detailName}}</span>
-</div>
-
+<!-- Choose a Color and Name It -->
 <div style='clear:left;'>
 	<!-- Choose a Color -->
 	<div style='float:left;'>
@@ -35,6 +30,13 @@
 
 <hr style='clear:left;'>
 
+<!-- When an id is passed, the nyfc is shown  -->
+<div ng-show='showDetail'>
+	<nyfc-canvas data-nyfcobj='detailobj'><div class='shim'></div></nyfcCanvas><br/>
+	<hr style='clear:left;'>
+</div>
+
+<!-- Paginated List of All the Colors -->
 <div style='clear:left;'>
 	<button ng-click='previousPage()' ng-disabled='{{disabled}}'>Previous</button>
 	<button ng-click='nextPage()' ng-disabled='{{disabled}}'>Next</button>
@@ -42,10 +44,10 @@
 
 <div style='clear:left;'>
 	<div ng-repeat='color in colors' style='float:left'>
-		<div style='margin:.47em;width:9em;height:9em;background-color:{{color.color}};'>
-			<span>{{ color.name }}</span>
+		<div style='margin:.47em;margin-bottom:1em;width:9em;height:9em;background-color:{{color.color}};'>
+			<nyfc-canvas data-nyfcobj='color'></nyfcCanvas><br/>
+			<span><a href='http://127.0.0.1:9000/#/{{color.id}}'>{{ color.name }}</a></span>
 		</div>
-		<span><a href='http://127.0.0.1:9000/#/{{color.id}}'>{{ color.name }}</a></span>
 	</div>
 </div>
 
