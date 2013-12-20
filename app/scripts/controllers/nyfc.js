@@ -1,7 +1,7 @@
 'use strict';
 //the main controller for the app
 angular.module('nyfcApp')
-  .controller('MainCtrl', function ($scope, $routeParams, $http, AppState, NYFCFirebase) {
+  .controller('MainCtrl', function ($scope, $routeParams, $http, AppState, NyfcStyles, NYFCFirebase) {
     $scope.title = 'Name Your Favorite Color';
 		
 		$scope.getNyfcColor = function (id) {
@@ -80,16 +80,25 @@ angular.module('nyfcApp')
 			$scope.loadPage();
 		}
 		
+		$scope.newNyfc = AppState.getNewNyfc();
+		
+		$scope.changeName = function () {
+			//calculate the styles
+			var stylesObj = NyfcStyles.stylesFromArr(AppState.getNewNyfc().name, AppState.getNewNyfc().selectedHsl.l);
+			AppState.setStyles(stylesObj);
+		}
+			
     $scope.submitColor = function (event) {
+			var newNyfc = AppState.getNewNyfc();
       NYFCFirebase.push({ 
-				name: $scope.colorName, // the name
-				color: $scope.selectedRgbString, // the color as a string rgb(val,val,val)
+				name: newNyfc.name, // the name
+				color: newNyfc.selectedRgbString, // the color as a string rgb(val,val,val)
 				created_at: Firebase.ServerValue.TIMESTAMP, //creates a timestamp on firebase
 				updated_at: Firebase.ServerValue.TIMESTAMP, //creates a timestamp on firebase
 				adult_content: false, // naughty?
-				h: Math.round($scope.selectedHsl.h * 1000)/1000,
-				s: Math.round($scope.selectedHsl.s * 1000)/1000,
-				l: Math.round($scope.selectedHsl.l * 1000)/1000
+				h: newNyfc.selectedHsl.h,
+				s: newNyfc.selectedHsl.s,
+				l: newNyfc.selectedHsl.l
 				});
     };
 		

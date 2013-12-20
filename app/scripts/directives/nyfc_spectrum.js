@@ -2,7 +2,7 @@
 
 //this is a wrapper for the spectrum color picker.
 angular.module('nyfcApp')
-	.directive('nyfcSpectrum', function(){
+	.directive('nyfcSpectrum', ['AppState', 'NyfcStyles', function(AppState, NyfcStyles){
 	return {
 		restrict: 'EA',
 		template: '<div></div>',
@@ -14,13 +14,19 @@ angular.module('nyfcApp')
 				flat: true,
 				cancelText: '',
 				move: function (color) {// maybe shoud be changed to 'change'
-					$scope.selectedTinyColor = color;
-					$scope.selectedRgbString = color.toRgbString();
-					$scope.selectedHsl = color.toHsl();
+					var stylesObj;
+				
+					AppState.setPropNewNyfc('selectedTinyColor', color);
+					AppState.setPropNewNyfc('selectedRgbString', color.toRgbString());
+					AppState.setPropNewNyfc('selectedHsl', color.toHsl());
+					
+					stylesObj = NyfcStyles.stylesFromArr(AppState.getNewNyfc().name, AppState.getNewNyfc().selectedHsl.l);
+					AppState.setStyles(stylesObj);
+					
 					$scope.safeApply();
 				}
 			});
 		}
 	};
 	
-});
+}]);
