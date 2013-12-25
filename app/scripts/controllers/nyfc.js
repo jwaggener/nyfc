@@ -1,9 +1,51 @@
 'use strict';
-//the main controller for the app
+// the main controller for the app
 angular.module('nyfcApp')
   .controller('MainCtrl', function ($scope, $routeParams, $http, AppState, NyfcStyles, NYFCFirebase) {
     $scope.title = 'Name Your Favorite Color';
+
+		$scope.handleShare = function (id) {
+			var url = window.location.origin + window.location.pathname + '#' + id;
+			console.log('url', url);
+			FB.getLoginStatus(function(response) {
+				console.log('response.status', response.status);
+			  if (response.status === 'connected') {
+			    // the user is logged in and has authenticated your
+			    // app, and response.authResponse supplies
+			    // the user's ID, a valid access token, a signed
+			    // request, and the time the access token 
+			    // and signed request each expire
+			    var uid = response.authResponse.userID;
+			    var accessToken = response.authResponse.accessToken;
+					FB.ui(
+					  {
+					    method: 'feed',
+					    name: 'Name Your Favorite Color',
+					    link: 'http://cnn.com/',
+							picture: 'http://9acegallery.com/nyfc/images/nyfc_logo_large.png',
+					    caption: 'Name Your Favorite Color',
+					    description: 'Pick your favorite color and name it!'
+					  },
+					  function(response) {
+					    if (response && response.post_id) {
+					      alert('Post was published.');
+					    } else {
+					      alert('Post was not published.');
+					    }
+					  }
+					);
+			  } else if (response.status === 'not_authorized') {
+			    console.log('the app is not authorized');
+					FB.login();
+			  } else {
+			    console.log('not logged into facebook');
+					FB.login();
+			  }
+			});
+
+		};
 		
+		// retrieves an individual nyfc color object
 		$scope.getNyfcColor = function (id) {
 			$http.get(
 				'https://nyfc.firebaseio.com/colors/' + $routeParams.id + '.json'
@@ -16,11 +58,11 @@ angular.module('nyfcApp')
 			});
 		}
 		
-		//pagination...
-		//create a query for the initial load - grab the last 5 objects  NYFCFirebase.endAt().limit(5);
-		//load that query and save the key for the first object of the next page; increase the limit by one
-		//retrieve the next page by using that key like this... NYFCFirebase.endAt(null, '-JA3MuTS_xHMe8TymKwR').limit(6);
-		//you'll have to discard the repeated object
+		// pagination...
+		// create a query for the initial load - grab the last 5 objects  NYFCFirebase.endAt().limit(5);
+		// load that query and save the key for the first object of the next page; increase the limit by one
+		// retrieve the next page by using that key like this... NYFCFirebase.endAt(null, '-JA3MuTS_xHMe8TymKwR').limit(6);
+		// you'll have to discard the repeated object
 		$scope.LIMIT = 20, // items per page 
 		$scope.colors = []; // the colors currently displayed to the user
 		$scope.loadPage = function () {
@@ -59,7 +101,7 @@ angular.module('nyfcApp')
 			    arr.unshift(data[key]);
 			  }
 			}
-			//any other page than the first page, 0
+			// any other page than the first page, 0
 			if (AppState.getCurrentPage()) {
 				arr.splice(0,1);
 			}
@@ -80,14 +122,17 @@ angular.module('nyfcApp')
 			$scope.loadPage();
 		}
 		
+		// the nyfc object being created by the submit form
 		$scope.newNyfc = AppState.getNewNyfc();
 		
+		// as the input for the name changes, this is called
 		$scope.changeName = function () {
 			//calculate the styles
 			var stylesObj = NyfcStyles.stylesFromArr(AppState.getNewNyfc().name, AppState.getNewNyfc().selectedHsl.l);
 			AppState.setStyles(stylesObj);
 		}
-			
+		
+		// submit the color to the database
     $scope.submitColor = function (event) {
 			var newNyfc = AppState.getNewNyfc();
       NYFCFirebase.push({ 
@@ -102,7 +147,7 @@ angular.module('nyfcApp')
 				});
     };
 		
-    //a monkey patch that checks to see if an $apply is in process before calling it
+    // a monkey patch that checks to see if an $apply is in process before calling it
     $scope.safeApply = function(fn) {
       var phase = this.$root.$$phase;
       if(phase == '$apply' || phase == '$digest') {
@@ -114,11 +159,15 @@ angular.module('nyfcApp')
       }
     };
 		
-		//start the app by checking to see if an individual color needs to be displayed and then loading the page
+		// start the app by checking to see if an individual color needs to be displayed and then loading the page
 		if ($routeParams.id) {
 			$scope.getNyfcColor($routeParams.id);
 		}
+		
+		// if there is an id passed as a param, show the detail section
 		$scope.showDetail = ($routeParams.id);
+		
+		// load the page
 		$scope.loadPage();
 		
   });

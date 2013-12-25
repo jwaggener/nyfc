@@ -1,10 +1,134 @@
 $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
+.logo {
+	padding-right: .25em;
+	padding-bottom: .20em;
+}
+
+.welcome {
+	background: #000;
+	padding: 20px 30px 20px 30px;
+	margin-bottom: 10px;
+}
+
+.create {
+	background: #000;
+	border-radius: 10px;
+	margin-bottom: 10px;
+	padding: 20px 30px 20px 30px;
+}
+
+.create input {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+/* div.create > div{
+		opacity: 1.0;
+		border: 10px solid red;
+}*/
+
+.colors {
+	background: black;
+}
+
+.previewContainer {
+	margin: 0 0 0 30px;
+}
+
+.preview{
+	width: 125px;
+	height: 125px;
+	position: relative;
+}
+
+.previewText {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+.nyfc {
+	margin:10px 10px 55px 10.5px;
+	width: 125px;
+	height: 125px;
+}
+
+.fb-share {
+	font-size: 12px;
+	cursor: pointer;
+	cursor: hand;
+	width: 57px;
+	padding: 1px 2px 1px 2px;
+	margin: 0;
+	border: 1px solid;
+	border-radius: 2px;
+	background-size: auto;
+	background-color: #3b579d;
+	background-repeat: no-repeat;
+}
+
+.fb-icon {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	background-image: url('../images/fb.png');
+	background-position: -391px -180px;
+}
+
 .shim {
 	height: 110px;
 }
 
 @import 'sass-bootstrap/lib/bootstrap';
+
+hr {
+	border: none;
+	height: 1px;
+	background-color: #ccc;
+	margin: 10px 0 10px 0;
+}
+.page-nav{
+	clear: both;
+	margin: 10px 10px 10px 10px;
+}
+.nav-button {
+	font-size: 12px;
+}
+
+@media (max-width: 767px) {
+	.previewContainer {
+		margin: 0;
+	}
+	.button-link {
+		text-align: center;
+		display: block;
+		margin-bottom: 10px;
+	}
+}
+
+h1 {
+	font-size: 25px;
+}
+
+.button-link {
+	padding: 5px 8px;
+	background: #0099ff;
+	border: none;
+	color: #fff;
+}
+
+.button-link:hover {
+	cursor: pointer;
+	cursor: hand;
+	color: #fff;
+	text-decoration: none;
+	background-color: #d89747;
+	-webkit-transition: background-color 250ms ease-out;
+  -moz-transition: background-color 250ms ease-out;
+  -o-transition: background-color 250ms ease-out;
+  transition: background-color 250ms ease-out;
+}
 
 .browsehappy {
     margin: 0.2em 0;
@@ -15,9 +139,9 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 /* Space out content a bit */
 body {
-		background-color: black;
+		background-color: #47353e;
+		background-image: url('../images/bg_03.png');
 		color: white;
-    padding-top: 20px;
     padding-bottom: 20px;
 }
 
