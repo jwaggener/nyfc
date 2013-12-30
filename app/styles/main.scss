@@ -137,6 +137,10 @@ h1 a, a:hover {
 }
 
 @media (max-width: 767px) {
+	.detail-nyfc img {
+		width: 125px;
+		height: 125px;
+	}
 	.previewContainer {
 		margin: 0;
 	}
