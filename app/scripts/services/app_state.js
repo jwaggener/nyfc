@@ -6,7 +6,12 @@ angular.module('nyfcApp')
 		// a new model, not yet saved
 		var newNyfc = {
 			name: '',
-			selectedRgbString: 'rgb(0,0,255)'
+			selectedRgbString: 'rgb(0,0,255)',
+			selectedHsl: { 
+				h: 240, 
+				s: 1, 
+				l: 0.5
+			}
 		};
 		
 		function _setNewNyfc (obj) {
