@@ -100,6 +100,7 @@ angular.module('nyfcApp')
 				'https://nyfc.firebaseio.com/colors/' + $routeParams.id + '.json'
 			).success(function(data, status, headers, config){
 				$scope.detailobj = data;
+				$scope.detailobj.id = $routeParams.id;
 				$scope.showDetail = true;
 				$scope.safeApply();
 			}).error(function(data, status, headers, config){
