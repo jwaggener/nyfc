@@ -3,6 +3,9 @@
 angular.module('nyfcApp')
   .controller('MainCtrl', function ($scope, $routeParams, $http, AppState, NyfcStyles, NYFCFirebase) {
 		
+		// after the user craetes one color, I'm encouranging them to make another!
+		$scope.encouragement = false;
+		
 		// if the user is not logged in, and they use one of the links on the page to login
 		// this event listener fires
 		FB.Event.subscribe('auth.authResponseChange', function(response) {
@@ -48,8 +51,8 @@ angular.module('nyfcApp')
 					    method: 'feed',
 					    name: 'Name Your Favorite Color',
 					    link: url,
-							picture: 'http://9acegallery.com/nyfc/images/nyfc_logo_large.png',
-					    caption: 'I just created: ' + name,
+							picture: 'http://n-y-f-c.com/images/398d2afa.nyfc_logo_large.png',
+					    caption: name,
 					    description: 'Follow the link to check it out and name your favorite color!'
 					  },
 					  function(response) {
@@ -69,7 +72,7 @@ angular.module('nyfcApp')
 
 		};
 		
-		//login to facebook
+		// login to facebook
 		$scope.fbLogin = function () {
 			FB.getLoginStatus(function(response) {
 				if (response.status === 'connected') {
@@ -85,7 +88,7 @@ angular.module('nyfcApp')
 			});
 		};
 		
-		//logout of facebook
+		// logout of facebook
 		$scope.fbLogout = function () {
 			$scope.user = null;
 			FB.logout();
@@ -180,6 +183,7 @@ angular.module('nyfcApp')
 		
 		// submit the color to the database
     $scope.submitColor = function (event) {
+			$scope.encouragement = true;
 			var newNyfc = AppState.getNewNyfc();
       NYFCFirebase.push({ 
 				name: newNyfc.name, // the name
@@ -192,6 +196,7 @@ angular.module('nyfcApp')
 				l: newNyfc.selectedHsl.l,
 				user: $scope.user || null
 				});
+				newNyfc.name = '';
     };
 		
     // a monkey patch that checks to see if an $apply is in process before calling it

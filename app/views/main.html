@@ -28,6 +28,7 @@
 		<label for='colorNamer'>Name Your Color:</label><br/>
 		<input type="text" ng-model="newNyfc.name" ng-change='changeName()' placeholder="Name Your Color!" name='colorNamer'><br/>
 		<a ng-click='submitColor()' class='button-link'>CREATE!</a>
+		<p ng-show='encouragement'>Make another!</p>
 	</div>
 	
 	<div class='col-sm-4 col-md-4 col-lg-4'>
@@ -41,7 +42,7 @@
 
 <!-- When an id is passed to the URL, the nyfc is shown  -->
 <div ng-show='showDetail' class='row detail' >
-	<p>Name: {{detailobj.name}}, RGB Value: {{detailobj.color}}, <span ng-show='detailobj.user'>By <a href='{{detailobj.user.link}}'>{{detailobj.user.name}}</a></span></p>
+	<p>Name: {{detailobj.name}}, RGB Value: {{detailobj.color}}, <span ng-show='detailobj.user'>By <a href='{{detailobj.user.link}}' target='blank'>{{detailobj.user.name}}</a></span></p>
 	<nyfc-canvas data-nyfcobj='detailobj'><div class='shim'></div></nyfcCanvas>
 </div>
 
