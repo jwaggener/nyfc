@@ -6,7 +6,7 @@ angular.module('nyfcApp')
 		// a new model, not yet saved
 		var newNyfc = {
 			name: '',
-			color: ''
+			selectedRgbString: 'rgb(0,0,255)'
 		};
 		
 		function _setNewNyfc (obj) {
@@ -28,6 +28,23 @@ angular.module('nyfcApp')
 			    newNyfc[key] = obj[key]
 			  }
 			}
+		}
+		
+		// user info from Facebook
+		var _user = {};
+		
+		// pass in the facebook user object
+		// and an array of attributes you would like to save
+		// ['id', 'first_name', 'last_name']
+		var _setUser = function (obj, attrs) {
+			var i = 0;
+			for(i; i<attrs.length; i++) {
+				_user[attrs[i]] = obj[attrs[i]];
+			}
+		}
+		
+		var _getUser = function () {
+			return _user;
 		}
 		
 		// pagination
@@ -53,6 +70,9 @@ angular.module('nyfcApp')
 		}
 		
 		return {
+			// new user
+			setUser: _setUser,
+			getUser: _getUser,
 			// new nyfc
 			setNewNyfc: _setNewNyfc,
 			getNewNyfc: _getNewNyfc,

@@ -5,14 +5,15 @@
 
 	<p>Use the color picker below to choose your favorite color. Then give it a name!</p>
 
-	<p>Be sure to share your creativity on Facebook and sign up to revisit your creations on nameyourfavoritecolor.com.</p>
+	<p ng-hide='user.first_name'>Be sure to <a ng-click='fbLogin()'>share your creativity</a> on Facebook and sign up to revisit your creations on nameyourfavoritecolor.com.</p>
 </div>
 
 <!-- Choose a Color and Name It -->
 <div class='row create' >
 	
 	<!-- verbage about creating a color -->
-	<p>PICK a color, NAME a color, CREATE a color! Sign into your FB account to OWN a color.</p>
+	<p ng-show='user.first_name' >Welcome, <a href='{{user.link}}' target='blank'>{{user.name}}!</a><br/><span class='diminish'>Not {{user.name}}? Please <a ng-click='fbLogout()'>logout</a>.</span></p>
+	<p>PICK a color, NAME a color, CREATE a color! <span ng-hide='user.first_name'><a ng-click='fbLogin()'>Sign into your FB account</a> to OWN a color.</span></p>
 
 	<!-- Choose a Color -->
 	<div class='col-sm-4 col-md-4 col-lg-4'>
@@ -39,11 +40,10 @@
 </div>
 
 <!-- When an id is passed to the URL, the nyfc is shown  -->
-<div ng-show='showDetail'>
-	<nyfc-canvas data-nyfcobj='detailobj'><div class='shim'></div></nyfcCanvas><br/>
-	<hr style='clear:left;'>
+<div ng-show='showDetail' class='row detail' >
+	<p>Name: {{detailobj.name}}, RGB Value: {{detailobj.color}}, <span ng-show='detailobj.user'>By <a href='{{detailobj.user.link}}'>{{detailobj.user.name}}</a></span></p>
+	<nyfc-canvas data-nyfcobj='detailobj'><div class='shim'></div></nyfcCanvas>
 </div>
-
 
 
 <div class='row colors'>
@@ -59,7 +59,7 @@
 			<div class='nyfc'>
 				<nyfc-canvas data-nyfcobj='color'></nyfcCanvas><br/>
 				<span><a href='#{{color.id}}'>{{ color.name }}</a></span>
-				<div ng-click="handleShare(color.id);" style='border-color:{{color.color}}' class='fb-share'>
+				<div ng-click="handleShare(color.id, color.name);" style='border-color:{{color.color}}' class='fb-share'>
 					<span class='fb-icon'></span>
 					<span>Share</span>
 				</div>

@@ -2,29 +2,55 @@
 // the main controller for the app
 angular.module('nyfcApp')
   .controller('MainCtrl', function ($scope, $routeParams, $http, AppState, NyfcStyles, NYFCFirebase) {
-    $scope.title = 'Name Your Favorite Color';
-
-		$scope.handleShare = function (id) {
+		
+		// if the user is not logged in, and they use one of the links on the page to login
+		// this event listener fires
+		FB.Event.subscribe('auth.authResponseChange', function(response) {
+	    if (response.status === 'connected') {
+				FB.api('/me', function(response) {
+					$scope.user = response;
+					$scope.safeApply();
+					//window.FBme = response;
+					// save these attributes from facebook
+					// id
+					// name
+					// first_name
+					// last_name
+					// link
+					// locale
+					// username
+					// gender
+				});
+			}
+		});
+		
+		// making sure this fires. The event previous does not always fire on page load. Not sure why.
+		// the idea here is that if they are a user, and the load the page, and they are logged in
+		// I want to make sure they are greeted!
+		FB.getLoginStatus(function(response) {
+			if (response.status === 'connected') {
+				FB.api('/me', function(response) {
+					$scope.user = response;
+					$scope.safeApply();
+				});
+			}
+		});
+		
+		// handles the share function
+		$scope.handleShare = function (id, name) {
 			var url = window.location.origin + window.location.pathname + '#' + id;
-			console.log('url', url);
 			FB.getLoginStatus(function(response) {
-				console.log('response.status', response.status);
 			  if (response.status === 'connected') {
-			    // the user is logged in and has authenticated your
-			    // app, and response.authResponse supplies
-			    // the user's ID, a valid access token, a signed
-			    // request, and the time the access token 
-			    // and signed request each expire
 			    var uid = response.authResponse.userID;
 			    var accessToken = response.authResponse.accessToken;
 					FB.ui(
 					  {
 					    method: 'feed',
 					    name: 'Name Your Favorite Color',
-					    link: 'http://cnn.com/',
+					    link: url,
 							picture: 'http://9acegallery.com/nyfc/images/nyfc_logo_large.png',
-					    caption: 'Name Your Favorite Color',
-					    description: 'Pick your favorite color and name it!'
+					    caption: 'I just created: ' + name,
+					    description: 'Follow the link to check it out and name your favorite color!'
 					  },
 					  function(response) {
 					    if (response && response.post_id) {
@@ -35,14 +61,34 @@ angular.module('nyfcApp')
 					  }
 					);
 			  } else if (response.status === 'not_authorized') {
-			    console.log('the app is not authorized');
 					FB.login();
 			  } else {
-			    console.log('not logged into facebook');
 					FB.login();
 			  }
 			});
 
+		};
+		
+		//login to facebook
+		$scope.fbLogin = function () {
+			FB.getLoginStatus(function(response) {
+				if (response.status === 'connected') {
+					FB.api('/me', function(response) {
+						$scope.user = response;
+						$scope.safeApply();
+					});
+				} else if (response.status === 'not_authorized') {
+					FB.login();
+				} else {
+					FB.login();
+				};
+			});
+		};
+		
+		//logout of facebook
+		$scope.fbLogout = function () {
+			$scope.user = null;
+			FB.logout();
 		};
 		
 		// retrieves an individual nyfc color object
@@ -143,7 +189,8 @@ angular.module('nyfcApp')
 				adult_content: false, // naughty?
 				h: newNyfc.selectedHsl.h,
 				s: newNyfc.selectedHsl.s,
-				l: newNyfc.selectedHsl.l
+				l: newNyfc.selectedHsl.l,
+				user: $scope.user || null
 				});
     };
 		

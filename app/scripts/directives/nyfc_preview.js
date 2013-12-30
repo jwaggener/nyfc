@@ -9,9 +9,7 @@ angular.module('nyfcApp')
 			scope: {
           options: '=',
           model: '=ngModel'
-      },
-			link: function ($scope, element, attrs) {
-			}
+      }
 		}
 		
 	});
