@@ -5,7 +5,7 @@ angular.module('nyfcApp')
 	.directive('nyfcCanvas', ['NyfcStyles', function(NyfcStyles){
 		return {
 			restrict: 'EA',
-			replace: false,
+			replace: true,
 			link: function ($scope, element, attrs) {
 				
 				// the canvas 2D context object to draw to
@@ -14,12 +14,13 @@ angular.module('nyfcApp')
 				$scope.drawCanvas = function (ctx, arr, lightness) {
 					
 					var size,
-						stylesObj = NyfcStyles.stylesFromArr(arr, lightness),
+						multiplier = 3,
+						stylesObj = NyfcStyles.stylesFromArr(arr, lightness, multiplier),
 						i = arr.length,
-						x = 5,
-						y = 120;
+						x = 5 * multiplier,
+						y = 120 * multiplier;
 					
-					ctx.font = stylesObj.font
+					ctx.font = stylesObj.font;
 					ctx.textAlign = stylesObj.textAlign;
 					ctx.textBaseline = stylesObj.textBaseline;
 					ctx.fillStyle = stylesObj.color;
@@ -34,6 +35,7 @@ angular.module('nyfcApp')
 				
 				$scope.updateCanvas = function (nyfcobj) {
 					var canvas, dimension, ctx, img,
+						multiplier = 3,
 						arr = nyfcobj.name.split(' '),
 						max = (_.max(arr, function(str){return str.length;})).length;
 						
@@ -57,7 +59,7 @@ angular.module('nyfcApp')
 						arr = newArr;
 					};
 
-					dimension = 125;
+					dimension = 125 * multiplier;
 					canvas = document.createElement('canvas');
 					canvas.height = canvas.width = dimension;
 					ctx = canvas.getContext('2d');
