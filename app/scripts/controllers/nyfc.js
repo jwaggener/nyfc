@@ -51,7 +51,7 @@ angular.module('nyfcApp')
 					    method: 'feed',
 					    name: 'Name Your Favorite Color',
 					    link: url,
-							picture: 'http://n-y-f-c.com/images/398d2afa.nyfc_logo_large.png',
+							picture: 'http://nameyourfavoritecolor.com/images/398d2afa.nyfc_logo_large.png',
 					    caption: name,
 					    description: 'Follow the link to check it out and name your favorite color!'
 					  },
