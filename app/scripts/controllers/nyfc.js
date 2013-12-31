@@ -142,12 +142,23 @@ angular.module('nyfcApp')
 			}
 		}
 		
+		$scope.truncate = function (str) {
+			return (str.substr(0,29) + '...');
+		}
+		
 		// create an array of colors from the object returned from firebase
 		$scope.addColors = function (data) {
 			var arr = [];
 			for (var key in data) {
 			  if (data.hasOwnProperty(key)) {
 					data[key].id = key;
+					if (data[key].name) {
+						if(data[key].name.length > 30) {
+							data[key].shortName = $scope.truncate(data[key].name);
+						} else {
+							data[key].shortName = data[key].name;
+						}
+					}
 			    arr.unshift(data[key]);
 			  }
 			}
