@@ -106,7 +106,7 @@ angular.module('nyfcApp')
 					ctx.textBaseline = stylesObj.textBaseline;
 					ctx.fillStyle = stylesObj.color;
 
-					$scope.align(ctx, str, stylesObj, [dimension], 25);
+					$scope.align(ctx, str, stylesObj, [dimension], 10);
 					
 				}
 				

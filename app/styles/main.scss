@@ -54,10 +54,14 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 }
 
 .nyfc {
-	margin:10px 10px 55px 10.5px;
+	margin:10px 10px 80px 10.5px;
 	width: 125px;
 	height: 125px;
+}
 
+.nyfc a {
+	display: inline-block;
+	margin: 3px 0 5px 0;
 }
 
 .nyfc img{
