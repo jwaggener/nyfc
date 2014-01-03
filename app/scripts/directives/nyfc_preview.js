@@ -1,5 +1,4 @@
-'use strict';
-
+// this is preview that is drawn as the user is creating their color
 angular.module('nyfcApp')
 	.directive('nyfcPreview', function(){
 		return {
@@ -10,6 +9,6 @@ angular.module('nyfcApp')
           options: '=',
           model: '=ngModel'
       }
-		}
+		};
 		
 	});

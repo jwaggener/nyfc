@@ -1,4 +1,3 @@
-'use strict';
 //holds some state on the App. If routes reload controller/tempaltes, does not affect this state
 angular.module('nyfcApp')
   .factory('AppState', function() {
@@ -22,18 +21,18 @@ angular.module('nyfcApp')
 			newNyfc[name] = val;
 		}
 		
-		function _getNewNyfc (obj) {
+		function _getNewNyfc () {
 			return newNyfc;
 		}
 		
 		// for now, for simplicity, setting the styles on the nyfc object for use in display in the app
 		var _setStyles = function (obj) {
 			for (var key in obj) {
-			  if (obj.hasOwnProperty(key)) {
-			    newNyfc[key] = obj[key]
-			  }
+				if (obj.hasOwnProperty(key)) {
+					newNyfc[key] = obj[key];
+				}
 			}
-		}
+		};
 		
 		// user info from Facebook
 		var _user = {};
@@ -46,11 +45,11 @@ angular.module('nyfcApp')
 			for(i; i<attrs.length; i++) {
 				_user[attrs[i]] = obj[attrs[i]];
 			}
-		}
+		};
 		
 		var _getUser = function () {
 			return _user;
-		}
+		};
 		
 		// pagination
 		var _currentPage = 0,
@@ -89,6 +88,6 @@ angular.module('nyfcApp')
 			getCurrentPage: _getCurrentPage,
 			addKey: _addKey,
 			getKey: _getKey
-		}
+		};
 		
   });

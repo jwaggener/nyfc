@@ -1,5 +1,3 @@
-'use strict';
-
 //this is a wrapper for the spectrum color picker.
 angular.module('nyfcApp')
 	.directive('nyfcCanvas', ['NyfcStyles', function(NyfcStyles){
@@ -9,7 +7,7 @@ angular.module('nyfcApp')
 			link: function ($scope, element, attrs) {
 				
 				$scope.drawText = function(context, nodes, breaks, lineLengths, lineHeight, center) {
-					var l, i = 0, lines = [], point, j, r, lineStart = 0, y = 360, maxLength = Math.max.apply(null, lineLengths);
+					var i = 0, lines = [], point, j, r, lineStart = 0, y = 360, maxLength = Math.max.apply(null, lineLengths);
 
 					// Iterate through the line breaks, and split the nodes at the
 					// correct point.
@@ -17,7 +15,7 @@ angular.module('nyfcApp')
 						point = breaks[i].position,
 						r = breaks[i].ratio;
 
-						for (var j = lineStart; j < nodes.length; j += 1) {
+						for (j = lineStart; j < nodes.length; j += 1) {
 							// After a line break, we skip any nodes unless they are boxes or forced breaks.
 							if (nodes[j].type === 'box' || (nodes[j].type === 'penalty' && nodes[j].penalty === -Typeset.linebreak.infinity)) {
 								lineStart = j;
@@ -44,13 +42,11 @@ angular.module('nyfcApp')
 							} else if (node.type === 'glue') {
 								x += node.width + line.ratio * (line.ratio < 0 ? node.shrink : node.stretch);
 							} else if (node.type === 'penalty' && node.penalty === 100 && index === array.length - 1) {
-	                            context.fillText('-', x, y);
-	                        }
+								context.fillText('-', x, y);
+							}
 						});
 
-	                    // move lower to draw the next line
-						//y += lineHeight;
-					}
+					};
 					
 					while (i >= 0) {
 						drawLine(lines[i], i);
@@ -80,7 +76,7 @@ angular.module('nyfcApp')
 						
 						//my hack. sometimes no breaks. dunno why
 						if (breaks.length === 0) {
-							breaks = [{position:0, ratio: 0}, {position:4, ratio: 13}]
+							breaks = [{position:0, ratio: 0}, {position:4, ratio: 13}];
 						}
 						$scope.drawText(context, nodes, breaks, lineLengths, stylesObj.lineheight, center);
 						/* if (breaks.length !== 0) {
@@ -90,15 +86,14 @@ angular.module('nyfcApp')
 						} */
 					}
 					return [];
-				}
+				};
 				
 				// the canvas 2D context object to draw to
 				// a string
 				// lightness value from 0-1
 				$scope.drawCanvas = function (ctx, dimension, str, lightness) {
 
-					var size,
-						multiplier = 3,
+					var multiplier = 3,
 						stylesObj = NyfcStyles.stylesFromArr(str.split(' '), lightness, multiplier);
 					
 					ctx.font = stylesObj.font;
@@ -108,7 +103,7 @@ angular.module('nyfcApp')
 
 					$scope.align(ctx, str, stylesObj, [dimension], 24);
 					
-				}
+				};
 				
 				$scope.updateCanvas = function (nyfcobj) {
 					var canvas, dimension, ctx, img,
@@ -131,7 +126,7 @@ angular.module('nyfcApp')
 					// can have a shim that maintains a consistent height and prevents the DOM from jumping
 					$(element[0]).find('.shim').remove();
 					$(element[0]).prepend(img);
-				}
+				};
 
 				$scope.$watch(attrs.nyfcobj, function(newValue, oldValue){
 					if (newValue) {
@@ -139,6 +134,6 @@ angular.module('nyfcApp')
 					}
 				}, true);
 			}
-		}
+		};
 		
 	}]);

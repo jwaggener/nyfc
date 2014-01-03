@@ -1,5 +1,4 @@
-'use strict';
-
+// this defines the app and configures a route
 angular.module('nyfcApp', [
   'ngCookies',
   'ngResource',
@@ -8,11 +7,12 @@ angular.module('nyfcApp', [
 ])
   .config(function ($routeProvider) {
     $routeProvider
-	    .when('/:id?', {
-	      templateUrl: 'views/main.html',
-	      controller: 'MainCtrl'
-	    })
-      .otherwise({
-        redirectTo: '/'
-      });
-  });
+			//an id of a color can be passed
+			.when('/:id?', {
+				templateUrl: 'views/main.html',
+				controller: 'MainCtrl'
+			})
+			.otherwise({
+				redirectTo: '/'
+			});
+		});

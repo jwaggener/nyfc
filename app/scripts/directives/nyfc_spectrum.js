@@ -1,5 +1,3 @@
-'use strict';
-
 //this is a wrapper for the spectrum color picker.
 angular.module('nyfcApp')
 	.directive('nyfcSpectrum', ['AppState', 'NyfcStyles', function(AppState, NyfcStyles){

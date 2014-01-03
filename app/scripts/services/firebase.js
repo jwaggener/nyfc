@@ -1,4 +1,3 @@
-'use strict';
 // firebase is a scalable real time backend
 // http://www.firebase.com
 angular.module('nyfcApp')

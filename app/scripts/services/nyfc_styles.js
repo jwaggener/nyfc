@@ -1,11 +1,9 @@
-'use strict';
-
-// firebase is a scale-able real time backend
-// http://www.firebase.com
+// returns some style definitions that can be used
+// when drawing a canvas or when drawing some html
 angular.module('nyfcApp')
   .factory('NyfcStyles', function() {
 	
-		//returns an object with css styles
+		// returns an object with css styles
 		// takes an array of strings and a lightness value
 		var _stylesFromArr = function (arr, lightness, multiplier) {
 			
@@ -20,7 +18,7 @@ angular.module('nyfcApp')
 			// an object that will be returned
 			stylesObj = {
 				font: 'bold 18px sans-serif',
-				color: ( lightness > .85) ? '#191919' : '#ffffff',
+				color: ( lightness > 0.85) ? '#191919' : '#ffffff',
 				textAlign: 'left',
 				textBaseline: 'bottom',
 				lineheight: 16.25 * multiplier
@@ -67,10 +65,10 @@ angular.module('nyfcApp')
 			stylesObj.lineheight = size.lineheight;
 			
 			return stylesObj;
-		}
+		};
 		
 		return {
 			stylesFromArr: _stylesFromArr
-		}
+		};
 		
   });
