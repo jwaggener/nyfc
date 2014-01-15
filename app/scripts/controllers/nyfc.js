@@ -106,9 +106,9 @@ angular.module('nyfcApp')
 		};
 
 		// pagination...
-		// create a query for the initial load - grab the last 5 objects  NYFCFirebase.endAt().limit(5);
+		// create a query for the initial load - grab the last 5 objects  NYFCFirebase.colors.endAt().limit(5);
 		// load that query and save the key for the first object of the next page; increase the limit by one
-		// retrieve the next page by using that key like this... NYFCFirebase.endAt(null, '-JA3MuTS_xHMe8TymKwR').limit(6);
+		// retrieve the next page by using that key like this... NYFCFirebase.colors.endAt(null, '-JA3MuTS_xHMe8TymKwR').limit(6);
 		// you'll have to discard the repeated object
 		$scope.LIMIT = 20, // items per page 
 		$scope.colors = []; // the colors currently displayed to the user
@@ -117,9 +117,9 @@ angular.module('nyfcApp')
 			var limit = (AppState.getCurrentPage()) ? $scope.LIMIT + 1 : $scope.LIMIT;
 			//if the current page is any other than 0, we have to retrieve with a record name
 			if( AppState.getCurrentPage() ) {
-				$scope.query = NYFCFirebase.endAt(null, AppState.getKey(AppState.getCurrentPage())).limit(limit);
+				$scope.query = NYFCFirebase.colors.endAt(null, AppState.getKey(AppState.getCurrentPage())).limit(limit);
 			} else {
-				$scope.query = NYFCFirebase.endAt().limit(limit);
+				$scope.query = NYFCFirebase.colors.endAt().limit(limit);
 			}
 			$scope.query.on('value', function (snapshot) {
 				var data = snapshot.val();
@@ -193,8 +193,10 @@ angular.module('nyfcApp')
 		// submit the color to the database
     $scope.submitColor = function (event) {
 			$scope.encouragement = true;
-			var newNyfc = AppState.getNewNyfc();
-      NYFCFirebase.push({ 
+			var firebase, color,
+				newNyfc = AppState.getNewNyfc();
+				
+			color = {
 				name: newNyfc.name, // the name
 				color: newNyfc.selectedRgbString, // the color as a string rgb(val,val,val)
 				created_at: Firebase.ServerValue.TIMESTAMP, //creates a timestamp on firebase
@@ -204,8 +206,44 @@ angular.module('nyfcApp')
 				s: newNyfc.selectedHsl.s,
 				l: newNyfc.selectedHsl.l,
 				user: $scope.user || null
+			};
+			
+			//user
+			if ($scope.user && $scope.user.id) {
+				
+				$http.get(
+					'https://nyfc.firebaseIO.com/users/' + $scope.user.id + '.json'
+				).success(function(data, status, headers, config){
+					// if data is null, then add the user
+					if ( data === null) {
+						// add colors to user
+						$scope.user.colors = [color];
+						// add user
+						firebase.setWithPriority($scope.user, $scope.user.id);
+					} else {
+						// assume user and colors array are present and add
+						NYFCFirebase.user('/' + $scope.user.id + '/colors').push(color);
+					}
+				}).error(function(data, status, headers, config){
+					console.log('status', status);
 				});
-				newNyfc.name = '';
+				
+			}
+			
+			//pushing to /colors
+      NYFCFirebase.colors.push(color);
+			// a combination of the name and the HSL made safe for Firebase
+			var uniqueName = encodeURI(color.name);
+			var num = "" + color.h + color.s + color.l;
+			uniqueName = uniqueName + String(num).replace(/\./g, '_');
+			console.log('uniqueName', uniqueName);
+			NYFCFirebase.names('/' + uniqueName).setWithPriority(color, color.name);
+			NYFCFirebase.hues('/' + uniqueName).setWithPriority(color, color.h);
+			NYFCFirebase.saturations('/' + uniqueName).setWithPriority(color, color.s);
+			NYFCFirebase.lightnesses('/' + uniqueName).setWithPriority(color, color.l);
+
+			//reset the name after pushing
+			newNyfc.name = '';
     };
 		
     // a monkey patch that checks to see if an $apply is in process before calling it
