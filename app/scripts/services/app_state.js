@@ -2,6 +2,8 @@
 angular.module('nyfcApp')
   .factory('AppState', function() {
 		
+		var query = 'colors', path = '';
+		
 		// a new model, not yet saved
 		var newNyfc = {
 			name: '',
@@ -12,10 +14,6 @@ angular.module('nyfcApp')
 				l: 0.5
 			}
 		};
-		
-		function _setNewNyfc (obj) {
-			newNyfc = obj;
-		}
 		
 		function _setPropNewNyfc (name, val) {
 			newNyfc[name] = val;
@@ -73,12 +71,44 @@ angular.module('nyfcApp')
 			return _pageKeys[num];
 		}
 		
+		function _resetPageKeys () {
+			_pageKeys = [null];
+		}
+		
+		var _currentFilter;
+		
+		var filters = {
+			// all colors, prioritized by date
+			'COLORS': 0,
+			// colors, prioritized by the hue of hsl
+			'HUE': 1,
+			// colors, prioritized by the saturation of hsl
+			'SATURATION': 2,
+			// colors, prioritized by the saturation of hsl
+			'LIGHTNESS': 3,
+			// colors which belong to the currently logged in user
+			'USER': 4
+		}
+		
+		_currentFilter = 0;
+		
+		function _getCurrentFilter () {
+			return _currentFilter;
+		};
+		
+		function _setCurrentFilter (val) {
+			_currentFilter = val;
+		};
+		
 		return {
+			//the type of query
+			query: query,
+			//a path in that query
+			path: path,
 			// new user
 			setUser: _setUser,
 			getUser: _getUser,
 			// new nyfc
-			setNewNyfc: _setNewNyfc,
 			getNewNyfc: _getNewNyfc,
 			setPropNewNyfc: _setPropNewNyfc,
 			//styles
@@ -86,8 +116,13 @@ angular.module('nyfcApp')
 			//pagination
 			setCurrentPage: _setCurrentPage,
 			getCurrentPage: _getCurrentPage,
+			resetPageKeys: _resetPageKeys,
 			addKey: _addKey,
-			getKey: _getKey
+			getKey: _getKey,
+			//filters for the colors
+			filters: filters,
+			getCurrentFilter: _getCurrentFilter,
+			setCurrentFilter: _setCurrentFilter
 		};
 		
   });

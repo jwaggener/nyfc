@@ -112,14 +112,19 @@ angular.module('nyfcApp')
 		// you'll have to discard the repeated object
 		$scope.LIMIT = 20, // items per page 
 		$scope.colors = []; // the colors currently displayed to the user
+		console.log('AppState.query', AppState.query);
 		$scope.loadPage = function () {
+			//remove any listeners before creating a new firebase object
+			if ($scope.query) {
+				$scope.query.off('value');
+			}
 			// the limit is increased by one with page loads for pages other than than the first page
 			var limit = (AppState.getCurrentPage()) ? $scope.LIMIT + 1 : $scope.LIMIT;
 			//if the current page is any other than 0, we have to retrieve with a record name
 			if( AppState.getCurrentPage() ) {
-				$scope.query = NYFCFirebase.colors.endAt(null, AppState.getKey(AppState.getCurrentPage())).limit(limit);
+				$scope.query = NYFCFirebase.query(AppState.query, AppState.path).endAt(null, AppState.getKey(AppState.getCurrentPage())).limit(limit);
 			} else {
-				$scope.query = NYFCFirebase.colors.endAt().limit(limit);
+				$scope.query = NYFCFirebase.query(AppState.query, AppState.path).endAt().limit(limit);
 			}
 			$scope.query.on('value', function (snapshot) {
 				var data = snapshot.val();
@@ -128,7 +133,21 @@ angular.module('nyfcApp')
 				$scope.initalPageLoad = false;
 			});
 		};
-
+		
+		$scope.myColors = function () {
+			console.log('$scope.onlyMyColors', $scope.onlyMyColors);
+			if ($scope.onlyMyColors) {
+				AppState.query = 'user';
+				AppState.path = '/' + $scope.user.id + '/colors';
+			} else {
+				AppState.query = 'colors';
+				AppState.path = '';
+			}
+			AppState.setCurrentPage(null);
+			AppState.resetPageKeys();
+			$scope.loadPage();
+		};
+		
 		// set the name that is going to be used with the next call to firebase to retrieve documents
 		$scope.setKey = function (data) {
 			for (var key in data) {
@@ -231,12 +250,12 @@ angular.module('nyfcApp')
 			}
 			
 			//pushing to /colors
-      NYFCFirebase.colors.push(color);
+      NYFCFirebase.colors('').push(color);
 			// a combination of the name and the HSL made safe for Firebase
 			var uniqueName = encodeURI(color.name);
 			var num = "" + color.h + color.s + color.l;
 			uniqueName = uniqueName + String(num).replace(/\./g, '_');
-			console.log('uniqueName', uniqueName);
+			//set all the searchable names
 			NYFCFirebase.names('/' + uniqueName).setWithPriority(color, color.name);
 			NYFCFirebase.hues('/' + uniqueName).setWithPriority(color, color.h);
 			NYFCFirebase.saturations('/' + uniqueName).setWithPriority(color, color.s);

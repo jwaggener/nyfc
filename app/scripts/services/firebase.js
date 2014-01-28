@@ -17,6 +17,10 @@ angular.module('nyfcApp')
 		// a list of the colors with lightness set as the priority
 		LIGHTNESSES_LOCATION = BASE_URL + '/lightnesses';
 		
+		function getColors (path) {
+			return new Firebase(COLORS_LOCATION + path);
+		};
+		
 		function getUser (path) {
 			return new Firebase(USERS_LOCATION + path);
 		};
@@ -37,9 +41,50 @@ angular.module('nyfcApp')
 			return new Firebase(LIGHTNESSES_LOCATION + path);
 		}
 		
+		//takes the type of list you want to get
+		// the groupings are
+		// colors, user, name, hue, saturation, lightness
+		function query (type, path) {
+			// a firebase object
+			var firebase;
+			switch (type) {
+				
+				case 'colors':
+				firebase = getColors(path);
+				break;
+				
+				case 'user':
+				firebase = getUser(path);
+				break;
+				
+				case 'name':
+				firebase = getName(path);
+				break;
+				
+				case 'hue':
+				firebase = getHue(path);
+				break;
+				
+				case 'saturation':
+				firebase = getSaturation(path);
+				break;
+				
+				case 'lightness':
+				firebase = getLightness(path);
+				break;
+				
+				default:
+				firebase = getColors(path);
+				break;
+				
+			}
+			return firebase;
+		}
+		
     //returns firebase data sources for this project
 		return {
-			colors: new Firebase(COLORS_LOCATION),
+			query: query,
+			colors: getColors,
 			user: getUser,
 			names: getName,
 			hues: getHue,
