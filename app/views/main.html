@@ -56,8 +56,8 @@
 	<div class='page-nav'>
 		<a class='button-link nav-button' ng-click='previousPage()' ng-disabled='{{disabled}}'>Previous</a>
 		<a class='button-link nav-button' ng-click='nextPage()' ng-disabled='{{disabled}}'>Next</a>
-		<label for='onlyMyColors' ng-show='user.first_name'>Only My Colors</label>
-		<input type='checkbox' name='onlyMyColors' ng-show='user.first_name' ng-change='myColors()' ng-model='onlyMyColors'>
+		<label for='onlyMyColors' class='mycolors' ng-show='user.first_name'>Only My Colors</label>
+		<input type='checkbox' class='mycolors' name='onlyMyColors' ng-show='user.first_name' ng-change='myColors()' ng-model='onlyMyColors'>
 		<hr/>
 	</div>
 

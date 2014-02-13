@@ -28,11 +28,6 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 	margin-bottom: 10px;
 }
 
-/* div.create > div{
-		opacity: 1.0;
-		border: 10px solid red;
-}*/
-
 .colors {
 	background: black;
 }
@@ -77,6 +72,11 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 .detail-nyfc img{
 	margin-bottom: 10px;
+}
+
+.mycolors {
+  margin-left: 10px;
+  float: right;
 }
 
 .fb-share {
