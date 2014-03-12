@@ -1,0 +1,259 @@
+$icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+
+@import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
+
+/*start custom*/
+h1 a, a:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+.logo {
+	padding-right: .25em;
+	padding-bottom: .20em;
+}
+
+.welcome {
+	background: #000;
+	padding: 20px 30px 20px 30px;
+	margin-bottom: 10px;
+}
+
+.create {
+	background: #000;
+	border-radius: 10px;
+	margin-bottom: 10px;
+	padding: 20px 30px 20px 30px;
+}
+
+.create input {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.create .button-link {
+	display: inline-block;
+	margin-bottom: 10px;
+}
+
+.colors {
+	background: black;
+}
+
+.previewContainer {
+	margin: 0 0 0 30px;
+}
+
+.preview{
+	width: 125px;
+	height: 125px;
+	position: relative;
+}
+
+.previewText {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+.nyfc {
+	margin:10px 10px 80px 10.5px;
+	width: 125px;
+	height: 125px;
+}
+
+.nyfc a {
+	display: inline-block;
+	margin: 3px 0 5px 0;
+}
+
+.nyfc img{
+	width: 125px;
+	height: 125px;
+}
+
+.detail {
+	background: #000;
+	margin-bottom: 10px;
+	padding: 20px 30px 20px 30px;
+}
+
+.detail-nyfc img{
+	margin-bottom: 10px;
+}
+
+.mycolors {
+  margin-left: 10px;
+  float: right;
+}
+
+.fb-share {
+	font-size: 12px;
+	cursor: pointer;
+	cursor: hand;
+	width: 57px;
+	padding: 1px 2px 1px 2px;
+	margin: 0;
+	border: 1px solid;
+	border-radius: 2px;
+	background-size: auto;
+	background-color: #3b579d;
+	background-repeat: no-repeat;
+}
+
+.fb-icon {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	background-image: image-url('../images/fb.png');
+	background-position: -391px -180px;
+}
+
+.diminish {
+	font-size: 10px;
+}
+
+.shim {
+	height: 110px;
+}
+/*end custom*/
+
+.browsehappy {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+/* Space out content a bit */
+body {
+		background-color: #47353e;
+		background-image: image-url('../images/bg_03.png');
+		color: white;
+    padding-bottom: 20px;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Custom page header */
+.header {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 40px;
+    padding-bottom: 19px;
+}
+
+/* Custom page footer */
+.footer {
+    padding-top: 19px;
+    color: #777;
+    border-top: 1px solid #e5e5e5;
+}
+
+.container-narrow > hr {
+    margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+}
+
+/* Supporting marketing content */
+.marketing {
+    margin: 40px 0;
+}
+
+.marketing p + h4 {
+    margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+    .container {
+        max-width: 730px;
+    }
+
+    /* Remove the padding we set earlier */
+    .header,
+    .marketing,
+    .footer {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    /* Space out the masthead */
+    .header {
+        margin-bottom: 30px;
+    }
+    /* Remove the bottom border on the jumbotron for visual effect */
+    .jumbotron {
+        border-bottom: 0;
+    }
+}
+
+@media (max-width: 767px) {
+	.detail-nyfc img {
+		width: 125px;
+		height: 125px;
+	}
+	.previewContainer {
+		margin: 0;
+	}
+	.button-link {
+		text-align: center;
+		display: block;
+		margin-bottom: 10px;
+	}
+}
+
+h1 {
+	font-size: 25px;
+}
+
+.button-link {
+	text-decoration: none;
+	padding: 5px 8px;
+	background: #0099ff;
+	border: none;
+	color: #fff;
+}
+
+a {
+	color: #0099ff;
+	text-decoration: underline;
+	cursor: pointer;
+	cursor: hand;
+}
+
+a:hover {
+	color: #19ffb5;
+}
+
+h1 a, a:hover {
+	color: #fff;
+	text-decoration: none;
+}
+.page-nav{
+	clear: both;
+	margin: 10px 10px 10px 10px;
+}
+.nav-button {
+	font-size: 12px;
+}
