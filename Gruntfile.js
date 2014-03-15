@@ -18,6 +18,22 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
 
+		buildcontrol: {
+	    options: {
+	      dir: 'dist',
+	      commit: true,
+	      push: true,
+	      message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
+	    },
+	    heroku: {
+	      options: {
+	        remote: 'git@heroku.com:floating-wind-244.git',
+	        branch: 'express_app',
+	        tag: '0.0'
+	      }
+	    }
+	  },
+	
     // Project settings
     yeoman: {
       // configurable paths
