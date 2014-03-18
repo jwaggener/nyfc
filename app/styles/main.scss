@@ -105,7 +105,7 @@ h1 a, a:hover {
 	display: inline-block;
 	width: 12px;
 	height: 12px;
-	background-image: image-url('../images/fb.png');
+	background-image: image-url('/images/fb.png');
 	background-position: -391px -180px;
 }
 
@@ -128,7 +128,7 @@ h1 a, a:hover {
 /* Space out content a bit */
 body {
 		background-color: #47353e;
-		background-image: image-url('../images/bg_03.png');
+		background-image: image-url('/images/bg_03.png');
 		color: white;
     padding-bottom: 20px;
 }

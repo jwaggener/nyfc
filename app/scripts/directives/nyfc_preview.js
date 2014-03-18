@@ -3,7 +3,7 @@ angular.module('nyfcApp')
 	.directive('nyfcPreview', function(){
 		return {
 			restrict: 'EA',
-			templateUrl: 'views/preview.html',
+			templateUrl: 'views/partials/preview.html',
 			replace: true,
 			scope: {
           options: '=',
