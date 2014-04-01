@@ -386,27 +386,24 @@ module.exports = function (grunt) {
     },
 
     karma: {
-	
+			
+			// this works
 			unit: {
         configFile: 'karma.conf.js',
         singleRun: true
       },
-
+			
       ci: {
 				
-				basePath: '',
-		
 				browsers: ['Chrome'],
 
-				files: [
-					'app/scripts/app.js',
-					'app/scripts/controllers/nyfc.js',
-					'app/scripts/controllers/nyfc.js'
+				src: [
+					'sqrt.js',
+		      'sqrtSpec.js'
 				],
 
         preprocessors: {
-          '**/app/scripts/*.js': ['progress', 'coverage'],
-					'**/app/scripts/controllers/*.js' : ['coverage']
+          '*.js': ['coverage']
         },
 
         reporters: ['coverage'],
