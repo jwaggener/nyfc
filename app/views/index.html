@@ -7,20 +7,18 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <meta name="description" content="">
+    <title>Name Your Favorite Color</title>
+    <meta name="description" content="A website about color">
     <meta name="viewport" content="width=device-width">
     
     <!-- Opengraph information -->
     <meta property="og:site_name" content="Name Your Favorite Color">
     <meta property="og:image" content="">
-    
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <!-- build:css({.tmp,app}) styles/main.css -->
-        <link rel="stylesheet" href="styles/main.css">
-				<link rel="stylesheet" href="scripts/vendor/spectrum.css">
-        <!-- endbuild -->
+	<!-- build:css({.tmp,app}) styles/main.css -->
+	<link rel="stylesheet" href="styles/main.css">
+	<link rel="stylesheet" href="vendor/spectrum.css">
+	<!-- endbuild -->
 </head>
   <body ng-app="nyfcApp">
     <!--[if lt IE 7]>
@@ -57,37 +55,36 @@
        ga('send', 'pageview');
     </script>
 
-    <script src="bower_components/jquery/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
+    
     <!-- datasource library for firebase -->
     <script src='https://cdn.firebase.com/v0/firebase.js'></script>
-    
-        <!-- build:js({.tmp,app}) scripts/plugins.js -->
-				<script src="bower_components/underscore/underscore.js"></script>
-        <!-- endbuild -->
-
-        <!-- build:js({.tmp,app}) scripts/modules.js -->
-        <script src="bower_components/angular-resource/angular-resource.js"></script>
-        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-        <script src="bower_components/angular-route/angular-route.js"></script>
-        <!-- endbuild -->
-
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-        <script src="scripts/services/firebase.js"></script>
-				<script src="scripts/services/app_state.js"></script>
-				<script src="scripts/services/nyfc_styles.js"></script>
-				<script src="scripts/directives/nyfc_spectrum.js"></script>
-				<script src="scripts/directives/nyfc_preview.js"></script>
-				<script src="scripts/directives/nyfc_canvas.js"></script>
-        <script src="scripts/controllers/nyfc.js"></script>
-				<script src="scripts/vendor/spectrum.js"></script>
-				<script src="scripts/vendor/linked-list.js"></script>
-				<script src="scripts/vendor/hypher.js"></script>
-				<script src="scripts/vendor/en-us.js"></script>
-				<script src="scripts/vendor/linebreak.js"></script>
-				<script src="scripts/vendor/formatter.js"></script>
-        <!-- endbuild -->
+ 
+		<!-- build:js scripts/vendor.js-->
+		<script src="bower_components/jquery/jquery.js"></script>
+		<script src="bower_components/angular/angular.js"></script>
+		<script src="bower_components/angular-resource/angular-resource.js"></script>
+		<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+		<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+		<script src="bower_components/angular-route/angular-route.js"></script>
+		<script src="bower_components/underscore/underscore.js"></script>
+		<script src="vendor/spectrum.js"></script>
+		<script src="vendor/linked-list.js"></script>
+		<script src="vendor/hypher.js"></script>
+		<script src="vendor/en-us.js"></script>
+		<script src="vendor/linebreak.js"></script>
+		<script src="vendor/formatter.js"></script>
+		<!-- endbuild -->
+				
+		<!-- build:js({.tmp,app}) scripts/app.js -->
+		<script src="scripts/app.js"></script>
+		<script src="scripts/services/firebase.js"></script>
+		<script src="scripts/services/app_state.js"></script>
+		<script src="scripts/services/nyfc_styles.js"></script>
+		<script src="scripts/directives/nyfc_spectrum.js"></script>
+		<script src="scripts/directives/nyfc_preview.js"></script>
+		<script src="scripts/directives/nyfc_canvas.js"></script>
+		<script src="scripts/controllers/nyfc.js"></script>
+		<!-- endbuild -->
+		
 </body>
 </html>

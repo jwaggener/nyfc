@@ -14,7 +14,7 @@ module.exports = function (grunt) {
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
-
+	
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -24,13 +24,6 @@ module.exports = function (grunt) {
 	      commit: true,
 	      push: true,
 	      message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
-	    },
-	    heroku: {
-	      options: {
-	        remote: 'git@heroku.com:floating-wind-244.git',
-	        branch: 'express_app',
-	        tag: '0.0'
-	      }
 	    }
 	  },
 	
@@ -143,16 +136,6 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/*',
             '!<%= yeoman.dist %>/.git*',
             '!<%= yeoman.dist %>/Procfile'
-          ]
-        }]
-      },
-      heroku: {
-        files: [{
-          dot: true,
-          src: [
-            'heroku/*',
-            '!heroku/.git*',
-            '!heroku/Procfile'
           ]
         }]
       },
@@ -296,17 +279,6 @@ module.exports = function (grunt) {
       }
     },
 
-    svgmin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.app %>/images',
-          src: '{,*/}*.svg',
-          dest: '<%= yeoman.dist %>/public/images'
-        }]
-      }
-    },
-
     htmlmin: {
       dist: {
         options: {
@@ -413,40 +385,50 @@ module.exports = function (grunt) {
       ]
     },
 
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
-    // minification. These next options are pre-configured if you do not wish
-    // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css',
-    //         '<%= yeoman.app %>/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
-
-    // Test settings
     karma: {
-      unit: {
+	
+			unit: {
         configFile: 'karma.conf.js',
         singleRun: true
-      }
-    },
+      },
 
+      ci: {
+				
+				basePath: '',
+		
+				browsers: ['Chrome'],
+
+				files: [
+					'app/scripts/app.js',
+					'app/scripts/controllers/nyfc.js',
+					'app/scripts/controllers/nyfc.js'
+				],
+
+        preprocessors: {
+          '**/app/scripts/*.js': ['progress', 'coverage'],
+					'**/app/scripts/controllers/*.js' : ['coverage']
+        },
+
+        reporters: ['coverage'],
+
+        coverageReporter: {
+          type : 'html',
+          dir : 'tmp/coverage/'
+        },
+
+        singleRun: true
+      }
+
+    },
+		
+		mochacov: {
+	    options: {
+	      reporter: 'spec',
+	      require: ['should']
+	    },
+	    all: ['test/server/**/*.js']
+	  },
+		
     mochaTest: {
       options: {
         reporter: 'spec'
@@ -503,11 +485,6 @@ module.exports = function (grunt) {
     ]);
   });
 
-  grunt.registerTask('server', function () {
-    grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
-    grunt.task.run(['serve']);
-  });
-
   grunt.registerTask('test', function(target) {
     if (target === 'server') {
       return grunt.task.run([
@@ -550,11 +527,6 @@ module.exports = function (grunt) {
     'rev',
     'usemin'
   ]);
-
-  grunt.registerTask('heroku', function () {
-    grunt.log.warn('The `heroku` task has been deprecated. Use `grunt build` to build for deployment.');
-    grunt.task.run(['build']);
-  });
 
   grunt.registerTask('default', [
     'newer:jshint',
