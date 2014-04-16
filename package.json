@@ -44,6 +44,7 @@
     "karma-phantomjs-launcher": "~0.1.1",
     "karma": "~0.12.2",
     "karma-ng-html2js-preprocessor": "~0.1.0",
+		"grunt-html2js": "~0.2.4",
     "grunt-mocha-test": "~0.8.1",
     "supertest": "~0.8.2",
     "should": "~2.1.0",

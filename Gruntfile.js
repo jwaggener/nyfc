@@ -385,6 +385,17 @@ module.exports = function (grunt) {
       ]
     },
 
+    html2js: {
+      options: {
+        base: 'app/scripts',
+        module: 'templates'
+      },
+      app: {
+        src: ['app/scripts/**/*.html'],
+        dest: 'app/scripts/tmp/templates.js'
+      }
+    },
+
     karma: {
 			
 			// this works
@@ -392,6 +403,10 @@ module.exports = function (grunt) {
         configFile: 'karma.conf.js',
         singleRun: true
       },
+			
+			e2e: {
+				configFile: 'karma-e2e.conf.js'
+			},
 			
       ci: {
 				
@@ -509,6 +524,15 @@ module.exports = function (grunt) {
     ]);
   });  
 
+	grunt.registerTask('test:e2e', function () {
+	    grunt.task.run([
+	        'clean:server',
+	        'concurrent:server',
+	        'open',
+	        'karma:e2e'
+	    ]);
+	});
+	
   grunt.registerTask('build', [
     'clean:dist',
     'bower-install',

@@ -2,9 +2,6 @@
 angular.module('nyfcApp')
   .controller('MainCtrl', function ($scope, $routeParams, $http, AppState, NyfcStyles, NYFCFirebase) {
 		
-		// after the user craetes one color, I'm encouranging them to make another!
-		$scope.encouragement = false;
-		
 		// if the user is not logged in, and they use one of the links on the page to login
 		// this event listener fires
 		FB.Event.subscribe('auth.authResponseChange', function(response) {
@@ -211,7 +208,6 @@ angular.module('nyfcApp')
 		
 		// submit the color to the database
     $scope.submitColor = function (event) {
-			$scope.encouragement = true;
 			var firebase, color,
 				newNyfc = AppState.getNewNyfc();
 				

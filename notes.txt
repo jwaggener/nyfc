@@ -1,2 +1,21 @@
 run code coverage:
 node_modules/.bin/karma start my.conf.js
+or
+grunt karma:unit
+
+check scope object in the console:
+ngular.element($0).scope();
+
+Protractor is the new newness
+
+reference:
+http://www.ng-newsletter.com/posts/practical-protractor.html
+
+start the selenium webdriver like so
+./node_modules/protractor/bin/webdriver-manager start
+
+starting up the protractor e2e testing
+protractor  protractor_conf.js
+
+start a server with the website running
+grunt serve
