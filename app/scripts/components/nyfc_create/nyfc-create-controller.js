@@ -5,6 +5,8 @@ nyfc.controller('nyfcCreateController', function($scope){
 	
 	$scope.h, $scope.s, $scope.l, $scope.name;
 	
+	$scope.stylesStr = 'background-color:rgb(255, 255, 255);color:#191919;font:bold 20px sans-serif;line-height:16.25px';
+	
 	$scope.hslToStyles = function() {
 		var fontColor = ($scope.l > 0.85) ? '#191919' : "#ffffff",
 		tc = tinycolor({ h: $scope.h, s: $scope.s, l: $scope.l}), //https://github.com/bgrins/TinyColor
@@ -33,6 +35,28 @@ nyfc.controller('nyfcCreateController', function($scope){
 	
 	$scope.submit = function() {
 		//submit the color to the service
+	};
+	
+	//watch for changes in the hue, saturation, or lightness
+	$scope.$watch('h', function(newValue, oldValue) {
+		$scope.hslToStyles();
+	});
+	$scope.$watch('s', function(newValue, oldValue) {
+		$scope.hslToStyles();
+	});
+	$scope.$watch('l', function(newValue, oldValue) {
+		$scope.hslToStyles();
+	});
+  // a monkey patch that checks to see if an $apply is in process before calling it
+	$scope.safeApply = function(fn) {
+		var phase = this.$root.$$phase;
+		if(phase == '$apply' || phase == '$digest') {
+			if(fn && (typeof(fn) === 'function')) {
+				fn();
+			}
+		} else {
+			this.$apply(fn);
+		}
 	};
 	
 });

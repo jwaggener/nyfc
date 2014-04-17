@@ -28,7 +28,7 @@ nyfc.directive('nyfcSpectrum', function(){
 							 hsl.h,
 							 hsl.s,
 							 hsl.l
-						);					
+						);		
 					$scope.safeApply();
 				}
 			});

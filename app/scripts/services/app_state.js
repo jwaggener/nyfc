@@ -4,34 +4,6 @@ angular.module('nyfcApp')
 		
 		var query = 'colors', path = '';
 		
-		// a new model, not yet saved
-		var newNyfc = {
-			name: '',
-			selectedRgbString: 'rgb(0,0,255)',
-			selectedHsl: { 
-				h: 240, 
-				s: 1, 
-				l: 0.5
-			}
-		};
-		
-		function _setPropNewNyfc (name, val) {
-			newNyfc[name] = val;
-		}
-		
-		function _getNewNyfc () {
-			return newNyfc;
-		}
-		
-		// for now, for simplicity, setting the styles on the nyfc object for use in display in the app
-		var _setStyles = function (obj) {
-			for (var key in obj) {
-				if (obj.hasOwnProperty(key)) {
-					newNyfc[key] = obj[key];
-				}
-			}
-		};
-		
 		// user info from Facebook
 		var _user = {};
 		
