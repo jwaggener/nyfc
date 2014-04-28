@@ -4,6 +4,7 @@ module.exports = function(config) {
     autoWatch: true,
     frameworks: ['jasmine'],
     files: [
+			'app/bower_components/underscore/underscore.js',
 			'app/bower_components/jquery/jquery.js',
 			'app/vendor/spectrum.js',
 			'app/bower_components/angular/angular.js',
