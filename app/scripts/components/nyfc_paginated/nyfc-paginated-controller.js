@@ -11,18 +11,14 @@ nyfc.controller('nyfcPaginatedController', function($scope, NYFCFirebase){
 	
 	// set the name that is going to be used with the next call to firebase to retrieve documents
 	$scope.setPageKey = function(data) {
-		for (var key in data) {
-			if (data.hasOwnProperty(key)) {
-				$scope.pageKeys.push(key);
-				$scope.pageKeys = _.uniq($scope.pageKeys);
-			}
-			break;
-		}
+		var arr = _.keys(data)
+		$scope.pageKeys.push(arr[0]);
+		$scope.pageKeys = _.uniq($scope.pageKeys);
 	};
 	
 	// set the name that is going to be used with the next call to firebase to retrieve documents
 	$scope.getPageKey = function(page) {
-		return $scope.pageKeys[page];
+		return $scope.pageKeys[page - 1];
 	};
 	
 	// the limit is increased by one with page loads for pages other than than the first page
@@ -41,12 +37,12 @@ nyfc.controller('nyfcPaginatedController', function($scope, NYFCFirebase){
 			$scope.query.off('value');
 		}
 		// the limit is increased by one with page loads for pages other than than the first page
-		var limit = (AppState.getCurrentPage()) ? $scope.LIMIT + 1 : $scope.LIMIT;
+		var limit = ($scope.currentPage) ? $scope.LIMIT + 1 : $scope.LIMIT;
 		//if the current page is any other than 0, we have to retrieve with a record name
 		if( $scope.currentPage ) {
-			$scope.query = NYFCFirebase.query(AppState.query, AppState.path).endAt(null, AppState.getKey(AppState.getCurrentPage())).limit(limit);
+			$scope.query = NYFCFirebase.query($scope.queryStr, $scope.path).endAt(null, $scope.getPageKey($scope.currentPage)).limit(limit);
 		} else {
-			$scope.query = NYFCFirebase.query(AppState.query, AppState.path).endAt().limit(limit);
+			$scope.query = NYFCFirebase.query($scope.queryStr, $scope.path).endAt().limit(limit);
 		}
 		$scope.query.on('value', function (snapshot) {
 			var data = snapshot.val();
@@ -111,6 +107,20 @@ nyfc.controller('nyfcPaginatedController', function($scope, NYFCFirebase){
 		$scope.currentPage = $scope.currentPage - 1;
 		$scope.loadPage();
 	};
-
+	
+	// a monkey patch that checks to see if an $apply is in process before calling it
+	$scope.safeApply = function(fn) {
+	  var phase = this.$root.$$phase;
+	  if(phase == '$apply' || phase == '$digest') {
+	    if(fn && (typeof(fn) === 'function')) {
+	      fn();
+	    }
+	  } else {
+	    this.$apply(fn);
+	  }
+	};
+	
+	//load the page
+	$scope.loadPage();
 	
 });

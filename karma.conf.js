@@ -6,6 +6,11 @@ module.exports = function(config) {
     files: [
 			'app/bower_components/underscore/underscore.js',
 			'app/bower_components/jquery/jquery.js',
+			'app/vendor/hypher.js',
+			'app/vendor/en-us.js',
+			'app/vendor/linked-list.js',
+			'app/vendor/linebreak.js',
+			'app/vendor/formatter.js',
 			'app/vendor/spectrum.js',
 			'app/bower_components/angular/angular.js',
 			'app/bower_components/angular-mocks/angular-mocks.js',

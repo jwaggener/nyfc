@@ -5,22 +5,26 @@ describe('directive draws an image of the color with its name', function(){
 	beforeEach(module('nyfcApp'));
 	
 	beforeEach(inject(function($rootScope, $compile, $controller, FormattingOptions){
-		context = {};
+		context = {
+			measureText: function(){
+				return 5;
+			}
+		};
 		$scope = $rootScope.$new();
 		el = angular.element('<nyfcCanvas></nyfcCanvas>');
 		$compile(el)($scope);
 		$scope.$digest();
 		controller = $controller('nyfcCanvasController', {
 			$scope: $scope,
-			$el: el
+			$element: el
 		});
 	}));
 	
 	it('should have a property color with a value of #191919 when the lightness value passed in is over 0.85 ', function(){
 		var str = 'hello world',
 			lightness = 0.86;
-		$scope.setContextStyles(str, lightness, context);
-		expect(context.fillStyle).toBe('#191919');
+		$scope.setContextStyles(str, lightness);
+		expect($scope.context.fillStyle).toBe('#191919');
 	});
 	
 	describe('selecting the correct size', function(){
@@ -59,6 +63,11 @@ describe('directive draws an image of the color with its name', function(){
 			expect(obj).toBe(formattingOptions.xsmall);
 		});
 		
+	});
+	
+	it('should get the number of nodes needed to draw text in the box', function(){
+		var nodes = $scope.getNodes('smallsmall smallsmallsmall sm', context);
+		expect(_.isArray(nodes)).toBe(true);
 	});
 	
 });
