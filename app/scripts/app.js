@@ -9,8 +9,7 @@ angular.module('nyfcApp', [
     $routeProvider
 			//an id of a color can be passed
 			.when('/:id?', {
-				templateUrl: 'partials/main.html',
-				controller: 'MainCtrl'
+				templateUrl: 'partials/main.html'
 			})
 			.otherwise({
 				redirectTo: '/'
