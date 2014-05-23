@@ -7,7 +7,8 @@ describe('the controller for displaying paginated nyfc colors', function() {
 	beforeEach(inject(function($rootScope, $controller){
 		$scope = $rootScope;
 		controller = $controller('nyfcPaginatedController',{
-			$scope: $scope
+			$scope: $scope,
+			NYFCFirebase: {}
 		})
 	}));
 	

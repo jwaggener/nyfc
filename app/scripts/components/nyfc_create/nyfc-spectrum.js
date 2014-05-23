@@ -15,6 +15,10 @@ nyfc.directive('nyfcSpectrum', function(){
 				$scope.l = l || 0;
 			}
 			
+			$scope.setRgbString = function(string){
+				$scope.rgbString = string;
+			}
+			
 			//an initial value
 			$scope.setHSL(240, 1, .5);
 			
@@ -28,7 +32,8 @@ nyfc.directive('nyfcSpectrum', function(){
 							 hsl.h,
 							 hsl.s,
 							 hsl.l
-						);		
+						);
+						$scope.setRgbString(color.toRgbString());		
 					$scope.safeApply();
 				}
 			});

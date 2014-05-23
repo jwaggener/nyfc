@@ -32,6 +32,10 @@ nyfc.controller('nyfcPaginatedController', function($scope, NYFCFirebase){
 	// retrieve the next page by using that key like this... NYFCFirebase.colors.endAt(null, '-JA3MuTS_xHMe8TymKwR').limit(6);
 	// you'll have to discard the repeated object
 	$scope.loadPage = function () {
+		//protecting my tests
+		if(!NYFCFirebase.query){
+			return;
+		}
 		//remove any listeners before creating a new firebase object
 		if ($scope.query) {
 			$scope.query.off('value');

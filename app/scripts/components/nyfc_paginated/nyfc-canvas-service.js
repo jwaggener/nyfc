@@ -25,11 +25,41 @@ nyfc.value('FormattingOptions',
 	}
 );
 
-nyfc.controller('nyfcCanvasController', function ($scope, $element, FormattingOptions) {
+function NyfcCanvasService(FormattingOptions){
 	
-	$scope.drawText = function(){
-		var nodes = $scope.getNodes($scope.name),
-			breaks = $scope.getBreaks(nodes, [$scope.dimension-15], 24);
+	var name, color, lightness;
+	var canvas, context,
+		multiplier, dimension;
+	
+	multiplier = 3;
+	dimension = 125 * multiplier;
+	canvas = document.createElement('canvas');
+	canvas.height = canvas.width = dimension;
+	context = canvas.getContext('2d');
+	
+	function getNyfcCanvas(_name_, _color_, _lightness_){
+		name = _name_;
+		color = _color_;
+		lightness = _lightness_;
+		//build the canvas
+		multiplier = 3;
+		dimension = 125 * multiplier;
+		canvas = document.createElement('canvas');
+		canvas.height = canvas.width = dimension;
+		context = canvas.getContext('2d');
+		// draw the color
+		context.fillStyle = color;
+		context.fillRect(0, 0, dimension, dimension);
+		// set styles for the drawing of the text
+		setContextStyles(name, lightness);
+		// draw it!
+		drawText(name);
+		return canvas;
+	}
+	
+	function drawText(name){
+		var nodes = getNodes(name),
+			breaks = getBreaks(nodes, [dimension-15], 24);
 
 		// Iterate through the line breaks, and split the nodes at the
 		// correct point.
@@ -56,31 +86,31 @@ nyfc.controller('nyfcCanvasController', function ($scope, $element, FormattingOp
 		var k = lines.length - 1,
 			y = 360;
 		while (k >= 0) {
-			$scope.drawLine(lines[k], y);
+			drawLine(lines[k], y);
 			k--;
-			y -= $scope.context.lineheight;
+			y -= context.lineheight;
 		}
 		
 	};
 	
-	$scope.drawLine = function (line, y) {
+	function drawLine(line, y) {
 		var x = 15;
 
 		line.nodes.forEach(function (node, index, array) {
 			if (node.type === 'box') {
-				$scope.context.fillText(node.value, x, y);
+				context.fillText(node.value, x, y);
 				x += node.width;
 			} else if (node.type === 'glue') {
 				x += node.width + line.ratio * (line.ratio < 0 ? node.shrink : node.stretch);
 			} else if (node.type === 'penalty' && node.penalty === 100 && index === array.length - 1) {
-				$scope.context.fillText('-', x, y);
+				context.fillText('-', x, y);
 			}
 		});
 		
 	};
 	
 	//choose a size for font and lineheight based on properties of the string
-	$scope.selectSize = function(str) {
+	function selectSize(str) {
 		var arr = str.split(' '),
 			// returns the longest string
 			max = (_.max(arr, function(str){return str.length;})).length;
@@ -99,34 +129,33 @@ nyfc.controller('nyfcCanvasController', function ($scope, $element, FormattingOp
 	};
 	
 	//set the styles on the 2d context of the canvas based on the string
-	$scope.setContextStyles = function(str, lightness) {
+	function setContextStyles(str, lightness) {
 		var size;
-			
-		$scope.context.textAlign = 'left';
-		$scope.context.textBaseline = 'bottom';
-		$scope.context.fillStyle = ( lightness > 0.85) ? '#191919' : '#ffffff';
+		context.textAlign = 'left';
+		context.textBaseline = 'bottom';
+		context.fillStyle = ( lightness > 0.85) ? '#191919' : '#ffffff';
 		
-		size = $scope.selectSize(str);
-		$scope.context.font = 'bold ' + size.fontSize * $scope.multiplier + 'px sans-serif';
-		$scope.context.lineheight = size.lineheight * $scope.multiplier;	
-	}
+		size = selectSize(str);
+		context.font = 'bold ' + size.fontSize * multiplier + 'px sans-serif';
+		context.lineheight = size.lineheight * multiplier;	
+	};
 	
 	// uses vendor library Typeset to retrieve the number of nodes for a given string
 	// center, justify, and left are the options available
 	// nodes is an array of objects
-	$scope.getNodes = function(str, orientation){
+	function getNodes(str, orientation){
 		var format,
 			orientation = orientation || 'left';
 		//pass in  string that measures text
 		format = Typeset.formatter(function (str) {
-			return $scope.context.measureText(str).width;
+			return context.measureText(str).width;
 		});
 		return format['left'](str);
-	}
+	};
 	
 	//use Typeset to get the linebreaks
 	//linelengths is always an array : [$scope.dimension - padding]
-	$scope.getBreaks = function(nodes, linelengths, tolerance){
+	function getBreaks(nodes, linelengths, tolerance){
 		var breaks = Typeset.linebreak(nodes, linelengths, {tolerance: tolerance});
 		//my hack. sometimes no breaks. dunno why
 		if (breaks.length === 0) {
@@ -135,54 +164,14 @@ nyfc.controller('nyfcCanvasController', function ($scope, $element, FormattingOp
 		return breaks;
 	}
 	
-
-	$scope.$watch('colorObj', function(newValue, oldValue){
-
-		if(!newValue){
-			return;
-		}
-		$scope.name = newValue.name;
-		$scope.color = newValue.color;
-		$scope.lightness = newValue.l;
-		
-		
-		//pixel dimension multiplied in order to make a nice-sized download image
-		$scope.multiplier = 3;
-		$scope.dimension = 125 * $scope.multiplier;
-		canvas = document.createElement('canvas');
-		canvas.height = canvas.width = $scope.dimension;
-		$scope.context = canvas.getContext('2d');
-		// draw the color
-		$scope.context.fillStyle = $scope.color;
-		$scope.context.fillRect(0,0,$scope.dimension,$scope.dimension);
-
-		// set styles for the drawing of the text
-		$scope.setContextStyles($scope.name, $scope.lightness);
-		// draw it!
-		$scope.drawText();
-
-		// create an image and add it to the DOM
-		img = new Image();
-		$(img).attr('title', 'Right-click to download.');
-		img.src = canvas.toDataURL("image/png");
-		// can have a shim that maintains a consistent height and prevents the DOM from jumping
-		//$($element[0]).find('.shim').remove();
-		$($element[0]).prepend(img);
-		
-	});
-	
-});
-
-nyfc.directive('nyfcCanvas', function(){
-	
 	return {
-		restrict: 'EA',
-		replace: false,
-		template: '',
-		scope: {
-			colorObj: '='
-		},
-		controller: 'nyfcCanvasController'
+		getNyfcCanvas: getNyfcCanvas,
+		canvas: canvas,
+		context: context,
+		selectSize: selectSize,
+		setContextStyles: setContextStyles,
+		getNodes: getNodes
 	};
-	
-});
+}
+
+nyfc.service('nyfcCanvasService', NyfcCanvasService);
