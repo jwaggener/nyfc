@@ -20,7 +20,7 @@
 	<link rel="stylesheet" href="vendor/spectrum.css">
 	<!-- endbuild -->
 </head>
-  <body ng-app="nyfcApp">
+  <body ng-app="nyfcApp" ng-controller="nyfcUser">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -59,7 +59,7 @@
     <!-- datasource library for firebase -->
     <script src='https://cdn.firebase.com/v0/firebase.js'></script>
  
-		<!-- build:js scripts/vendor.js-->
+		<!-- build:js({.tmp,app}) scripts/vendor.js-->
 		<script src="bower_components/jquery/jquery.js"></script>
 		<script src="bower_components/angular/angular.js"></script>
 		<script src="bower_components/angular-resource/angular-resource.js"></script>
@@ -77,10 +77,10 @@
 				
 		<!-- build:js({.tmp,app}) scripts/app.js -->
 		<script src="scripts/app.js"></script>
-
+		<script src="scripts/components/nyfc_user/nyfc-user.js"></script>
+		<script src="scripts/components/nyfc_paginated/nyfc-canvas-service.js"></script>
 		<script src="scripts/components/nyfc_create/nyfc-create-controller.js"></script>
 		<script src="scripts/components/nyfc_create/nyfc-spectrum.js"></script>
-		<script src="scripts/components/nyfc_paginated/nyfc-canvas-service.js"></script>
 		<script src="scripts/components/nyfc_paginated/nyfc-canvas-directive.js"></script>
 		<script src="scripts/services/firebase.js"></script>
 		<script src="scripts/components/nyfc_detail/nyfc-detail-controller.js"></script>
