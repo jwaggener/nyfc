@@ -1,7 +1,7 @@
 // controller for creating a new NYFC color
 var nyfc = angular.module('nyfcApp');
 
-nyfc.controller('nyfcCreateController', function($scope, $http, NYFCFirebase){
+nyfc.controller('nyfcCreateController', function($scope, $http, NYFCFirebase, nyfcCanvasService){
 	
 	$scope.h, $scope.s, $scope.l, $scope.name, $scope.rgbString;
 	$scope.user;
@@ -63,6 +63,20 @@ nyfc.controller('nyfcCreateController', function($scope, $http, NYFCFirebase){
 		NYFCFirebase.hues('/' + uniqueName).setWithPriority(color, color.h);
 		NYFCFirebase.saturations('/' + uniqueName).setWithPriority(color, color.s);
 		NYFCFirebase.lightnesses('/' + uniqueName).setWithPriority(color, color.l);
+		
+		//create an image from this
+		var nameForPict = $scope.name + '_' + $scope.h + '_' + $scope.s + '_' + $scope.l,
+			canvas = nyfcCanvasService.getNyfcCanvas($scope.name, $scope.rgbString, $scope.l);
+		$http.post(
+			'/api/nyfc',
+			{ 
+				imageData: canvas.toDataURL("image/png"),
+				name: nameForPict
+			}
+		).success(function(){
+			console.log('success message');
+		});
+
 		
 		//user
 		// if there is a user check to see is that user exists and if not, add that user

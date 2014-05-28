@@ -1,3 +1,5 @@
+'use strict';
+
 // firebase is a scalable real time backend
 // http://www.firebase.com
 angular.module('nyfcApp')
@@ -19,11 +21,11 @@ angular.module('nyfcApp')
 		
 		function getColors (path) {
 			return new Firebase(COLORS_LOCATION + path);
-		};
+		}
 		
 		function getUser (path) {
 			return new Firebase(USERS_LOCATION + path);
-		};
+		}
 		
 		function getName(path) {
 			return new Firebase(NAMES_LOCATION + path);
@@ -50,32 +52,32 @@ angular.module('nyfcApp')
 			switch (type) {
 				
 				case 'colors':
-				firebase = getColors(path);
-				break;
+					firebase = getColors(path);
+					break;
 				
 				case 'user':
-				firebase = getUser(path);
-				break;
+					firebase = getUser(path);
+					break;
 				
 				case 'name':
-				firebase = getName(path);
-				break;
+					firebase = getName(path);
+					break;
 				
 				case 'hue':
-				firebase = getHue(path);
-				break;
+					firebase = getHue(path);
+					break;
 				
 				case 'saturation':
-				firebase = getSaturation(path);
-				break;
+					firebase = getSaturation(path);
+					break;
 				
 				case 'lightness':
-				firebase = getLightness(path);
-				break;
+					firebase = getLightness(path);
+					break;
 				
 				default:
-				firebase = getColors(path);
-				break;
+					firebase = getColors(path);
+					break;
 				
 			}
 			return firebase;
@@ -90,6 +92,6 @@ angular.module('nyfcApp')
 			hues: getHue,
 			saturations: getSaturation,
 			lightnesses: getLightness
-		}
+		};
   });
   
