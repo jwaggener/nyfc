@@ -1,7 +1,6 @@
 var nyfc = angular.module('nyfcApp');
 
-nyfc.value('FormattingOptions', 
-	{
+var FormattingOptions = {
 		xsmall: {
 			fontSize: 12.25,
 			lineheight: 12.25
@@ -22,10 +21,9 @@ nyfc.value('FormattingOptions',
 			fontSize: 36,
 			lineheight: 36
 		}
-	}
-);
+	};
 
-function NyfcCanvasService(FormattingOptions){
+function NyfcCanvasService(){
 	
 	var name, color, lightness;
 	var canvas, context,
