@@ -87,4 +87,16 @@ nyfc.controller('nyfcUser', function($scope){
 		FB.logout();
 	};
 	
+	// a monkey patch that checks to see if an $apply is in process before calling it
+	$scope.safeApply = function(fn) {
+	  var phase = this.$root.$$phase;
+	  if(phase == '$apply' || phase == '$digest') {
+	    if(fn && (typeof(fn) === 'function')) {
+	      fn();
+	    }
+	  } else {
+	    this.$apply(fn);
+	  }
+	};
+	
 });
