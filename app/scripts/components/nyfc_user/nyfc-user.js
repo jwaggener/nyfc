@@ -36,8 +36,12 @@ nyfc.controller('nyfcUser', function($scope){
 	});
 	
 	// handles the FB share function
-	$scope.handleShare = function (id, name) {
-		var url = window.location.origin + window.location.pathname + '#' + id;
+	$scope.handleShare = function (id, name, h, s, l) {
+		// url to detail view
+		var url = window.location.origin + window.location.pathname + '#' + id,
+			nameOfPict = String($scope.name + '_' + h + '_' + s + '_' + l).replace(' ', '_') + '.png',
+		// url to png image
+			urlForPict = 'http://s3.amazonaws.com/nyfc-images/images/nyfc/' + nameOfPict;
 		FB.getLoginStatus(function(response) {
 			if (response.status === 'connected') {
 				FB.ui(
@@ -45,7 +49,7 @@ nyfc.controller('nyfcUser', function($scope){
 						method: 'feed',
 						name: 'Name Your Favorite Color',
 						link: url,
-						picture: 'http://nameyourfavoritecolor.com/images/398d2afa.nyfc_logo_large.png',
+						picture: urlForPict,
 						caption: name,
 						description: 'Follow the link to check it out and name your favorite color!'
 					},
