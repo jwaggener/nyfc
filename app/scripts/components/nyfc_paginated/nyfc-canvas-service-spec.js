@@ -16,39 +16,35 @@ describe('service draws an image of the color with its name', function(){
 	});
 	
 	describe('selecting the correct size', function(){
-		
-		beforeEach(inject(function(FormattingOptions){
-			formattingOptions = FormattingOptions;
-		}));
 			
 		it('should select xlarge if longest string size is 1-3 in length', function(){
 			var obj = _nyfcCanvasService.selectSize('xl ooo oo');
-			expect(obj).toBe(formattingOptions.xlarge);
+			expect(obj).toBe(FormattingOptions.xlarge);
 		});
 		
 		it('should select large if longest string size is 4-6 in length', function(){
 			var obj = _nyfcCanvasService.selectSize('larg large largel la');
-			expect(obj).toBe(formattingOptions.large);
+			expect(obj).toBe(FormattingOptions.large);
 		});
 
 		it('should select medium if longest string size is 7-9 in length', function(){
 			var obj = _nyfcCanvasService.selectSize('mediumm mediumme mediummed me');
-			expect(obj).toBe(formattingOptions.medium);
+			expect(obj).toBe(FormattingOptions.medium);
 		});
 
 		it('should select small if longest string size is 10-15 in length', function(){
 			var obj = _nyfcCanvasService.selectSize('smallsmall smallsmallsmall sm');
-			expect(obj).toBe(formattingOptions.small);
+			expect(obj).toBe(FormattingOptions.small);
 		});
 
 		it('should select small if longest string size is 10-15 in length', function(){
 			var obj = _nyfcCanvasService.selectSize('smallsmall smallsmallsmall sm');
-			expect(obj).toBe(formattingOptions.small);
+			expect(obj).toBe(FormattingOptions.small);
 		});
 
 		it('should select xsmall if longest string size is 16 and up in length', function(){
 			var obj = _nyfcCanvasService.selectSize('smallsmall smallsmallsmalls sm');
-			expect(obj).toBe(formattingOptions.xsmall);
+			expect(obj).toBe(FormattingOptions.xsmall);
 		});
 		
 	});
