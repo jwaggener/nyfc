@@ -39,7 +39,7 @@ nyfc.controller('nyfcUser', function($scope){
 	$scope.handleShare = function (id, name, h, s, l) {
 		// url to detail view
 		var url = window.location.origin + window.location.pathname + '#' + id,
-			nameOfPict = String($scope.name + '_' + h + '_' + s + '_' + l).replace(' ', '_') + '.png',
+			nameOfPict = String(name + '_' + h + '_' + s + '_' + l).split(' ').join('_') + '.png',
 		// url to png image
 			urlForPict = 'http://s3.amazonaws.com/nyfc-images/images/nyfc/' + nameOfPict;
 		FB.getLoginStatus(function(response) {

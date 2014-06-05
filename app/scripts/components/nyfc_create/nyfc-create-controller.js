@@ -65,7 +65,7 @@ nyfc.controller('nyfcCreateController', function($scope, $http, NYFCFirebase, ny
 		NYFCFirebase.lightnesses('/' + uniqueName).setWithPriority(color, color.l);
 		
 		//create an image from this
-		var nameForPict = String($scope.name + '_' + $scope.h + '_' + $scope.s + '_' + $scope.l).replace(' ', '_'),
+		var nameForPict = String($scope.name + '_' + $scope.h + '_' + $scope.s + '_' + $scope.l).split(' ').join('_'),
 			canvas = nyfcCanvasService.getNyfcCanvas($scope.name, $scope.rgbString, $scope.l);
 		$http.post(
 			'/api/nyfc',
