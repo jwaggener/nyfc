@@ -47,12 +47,12 @@
 	</div>
 </div>
 
-<div ng-controller='nyfcPaginatedController' class='row colors'>
+<div ng-controller='nyfcPaginatedController' class='row colors' ng-class='{loader:!colors.length}'>
 	
 	<!-- navigation -->
-	<div class='page-nav'>
-		<a class='button-link nav-button' ng-click='previousPage()' ng-disabled='{{disabled}}'>Previous</a>
-		<a class='button-link nav-button' ng-click='nextPage()' ng-disabled='{{disabled}}'>Next</a>
+	<div class='page-nav'  ng-show='colors.length'>
+		<a class='button-link nav-button' ng-class='{disabled:!currentPage}' ng-click='previousPage()' ng-disabled='!currentPage'>{{textPrevious}}</a>
+		<a class='button-link nav-button' ng-click='nextPage()' ng-disabled='{{disabled}}'>{{textNext}}</a>
 		<label for='onlyMyColors' class='mycolors' ng-show='user.first_name'>Only My Colors</label>
 		<input type='checkbox' class='mycolors' name='onlyMyColors' ng-show='user.first_name' ng-change='myColors()' ng-model='onlyMyColors'>
 		<hr/>
@@ -69,10 +69,10 @@
 	</div>
 	
 	<!-- navigation -->
-	<div class='page-nav'>
+	<div class='page-nav bottom' ng-show='colors.length'>
 		<hr/>
-		<a class='button-link nav-button' ng-click='previousPage()' ng-disabled='{{disabled}}'>Previous</a>
-		<a class='button-link nav-button' ng-click='nextPage()' ng-disabled='{{disabled}}'>Next</a>
+		<a class='button-link nav-button' ng-class='{disabled:!currentPage}' ng-click='previousPage()' ng-disabled='!currentPage'>{{textPrevious}}</a>
+		<a class='button-link nav-button' ng-click='nextPage()' ng-disabled='{{disabled}}'>{{textNext}}</a>
 	</div>
 	
 </div>

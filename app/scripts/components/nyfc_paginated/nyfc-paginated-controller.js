@@ -9,6 +9,16 @@ nyfc.controller('nyfcPaginatedController', function($scope, NYFCFirebase){
 	$scope.queryStr = 'colors';
 	$scope.path = '';
 	
+	$scope.localeStrings = {
+		previous: "Previous",
+		previousLoading: "loading...",
+		next: "Next",
+		nextLoading: "loading..."
+	};
+	
+	$scope.textPrevious = $scope.localeStrings.previous;
+	$scope.textNext = $scope.localeStrings.next;
+	
 	// set the name that is going to be used with the next call to firebase to retrieve documents
 	$scope.setPageKey = function(data) {
 		var arr = _.keys(data)
@@ -50,10 +60,16 @@ nyfc.controller('nyfcPaginatedController', function($scope, NYFCFirebase){
 		}
 		$scope.query.on('value', function (snapshot) {
 			var data = snapshot.val();
+			$scope.setButtonText();
 			$scope.addColors(data);
 			$scope.setPageKey(data);
 		});
 	};
+	
+	$scope.setButtonText = function(){
+		$scope.textPrevious = $scope.localeStrings.previous;
+		$scope.textNext = $scope.localeStrings.next;
+	}
 	
 	// create an array of colors from the object returned from firebase
 	$scope.addColors = function (data) {
@@ -99,6 +115,7 @@ nyfc.controller('nyfcPaginatedController', function($scope, NYFCFirebase){
 	
 	//advance
 	$scope.nextPage = function () {
+		$scope.textNext = $scope.localeStrings.nextLoading;
 		$scope.currentPage = $scope.currentPage + 1;
 		$scope.loadPage();
 	};
@@ -108,6 +125,7 @@ nyfc.controller('nyfcPaginatedController', function($scope, NYFCFirebase){
 		if ($scope.currentPage - 1 < 0 ){
 			return;
 		}
+		$scope.textPrevious = $scope.localeStrings.previousLoading;
 		$scope.currentPage = $scope.currentPage - 1;
 		$scope.loadPage();
 	};

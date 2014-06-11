@@ -39,6 +39,7 @@ h1 a, a:hover {
 
 .colors {
 	background: black;
+	min-height: 500px;
 }
 
 .previewContainer {
@@ -255,6 +256,14 @@ h1 a, a:hover {
 	clear: both;
 	margin: 10px 10px 10px 10px;
 }
+.loader{
+	background: black no-repeat center url('/images/loader.gif');
+}
 .nav-button {
 	font-size: 12px;
+	transition: .5s;
+	-webkit-transition: .5s;
+}
+.nav-button.disabled{
+	opacity: .7;
 }
