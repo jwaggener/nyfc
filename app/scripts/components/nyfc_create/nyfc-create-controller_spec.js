@@ -18,13 +18,13 @@ describe('the controller for creating a new nyfc color!', function() {
 	});
 	
 	it('should pass validation with values for h, s, and l and a string for a name', function(){
-		$scope.h = 255, $scope.s = 0, $scope.l = 1;
+		$scope.h = 360, $scope.s = 0, $scope.l = 1;
 		$scope.name = 'sammy';
 		expect($scope.validate()).toBe(true);
 	});
 	
 	it('should fail validation with values for h, s, and l and a string for a name', function(){
-		$scope.h = 256, $scope.s = 0, $scope.l = 1;
+		$scope.h = 361, $scope.s = 0, $scope.l = 1;
 		$scope.name = 'sammy';
 		expect($scope.validate()).toBe(false);
 	});

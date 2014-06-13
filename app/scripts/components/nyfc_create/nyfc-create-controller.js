@@ -3,7 +3,7 @@ var nyfc = angular.module('nyfcApp');
 
 nyfc.controller('nyfcCreateController', function($scope, $http, NYFCFirebase, nyfcCanvasService){
 	
-	$scope.h, $scope.s, $scope.l, $scope.name, $scope.rgbString;
+	$scope.h, $scope.s, $scope.l, $scope.name, $scope.rgbString = 'hello world';
 	$scope.user;
 	
 	$scope.stylesStr = 'background-color:rgb(255, 255, 255);color:#191919;font:bold 20px sans-serif;line-height:16.25px';
@@ -25,16 +25,23 @@ nyfc.controller('nyfcCreateController', function($scope, $http, NYFCFirebase, ny
 		//background-color:rgb(255, 255, 255);color:#191919;font:bold 20px sans-serif;line-height:16.25px'	
 	};
 	
+	$scope.showError = function(ngModelController, error) {
+		return ngModelController.$error[error];
+  };
+	
 	$scope.validate = function() {
 		var valid = true;
-		valid = ($scope.h >= 0 && $scope.h <= 255) && valid;
+		valid = ($scope.h >= 0 && $scope.h <= 360) && valid;
 		valid = ($scope.s >= 0 && $scope.s <= 1) && valid;
 		valid = ($scope.l >= 0 && $scope.l <= 1) && valid;
-		valid = ($scope.name.length && $scope.name.length <= 140) && valid;
-		return valid;
+		valid = ($scope.name && $scope.name.length && $scope.name.length <= 140) && valid;
+		return Boolean(valid);
 	};
 	
 	$scope.submit = function() {
+		if(!$scope.validate()){
+			return;
+		}
 		// displays a message to encourage the user to create another
 		$scope.encouragement = true;
 		
@@ -50,7 +57,10 @@ nyfc.controller('nyfcCreateController', function($scope, $http, NYFCFirebase, ny
 			l: $scope.l,
 			user: $scope.user || null
 		};
-
+		
+		//reset name
+		$scope.name = null;
+		
 		// submit the color to the service
 		// push to /colors
 	  NYFCFirebase.colors('').push(color);
@@ -65,8 +75,8 @@ nyfc.controller('nyfcCreateController', function($scope, $http, NYFCFirebase, ny
 		NYFCFirebase.lightnesses('/' + uniqueName).setWithPriority(color, color.l);
 		
 		//create an image from this
-		var nameForPict = String($scope.name + '_' + $scope.h + '_' + $scope.s + '_' + $scope.l).split(' ').join('_'),
-			canvas = nyfcCanvasService.getNyfcCanvas($scope.name, $scope.rgbString, $scope.l);
+		var nameForPict = String(color.name + '_' + color.h + '_' + color.s + '_' + color.l).split(' ').join('_'),
+			canvas = nyfcCanvasService.getNyfcCanvas(color.name, color.color, color.l);
 		$http.post(
 			'/api/nyfc',
 			{ 

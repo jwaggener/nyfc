@@ -5,7 +5,7 @@ var nyfc = angular.module('nyfcApp');
 nyfc.directive('nyfcSpectrum', function(){
 	return {
 		restrict: 'EA',
-		template: '<div><input /></div>',
+		template: "<div><input ng-model='rgbString' name='color' required /></div>",
 		replace: true,
 		link: function ($scope, element, attrs) {
 			
@@ -21,6 +21,8 @@ nyfc.directive('nyfcSpectrum', function(){
 			
 			//an initial value
 			$scope.setHSL(240, 1, .5);
+			var c = new tinycolor({h:$scope.h, s:$scope.s, l:$scope.l});
+			$scope.rgbString = c.toRgbString();
 			
 			element.find('input').first().spectrum({
 				color: '#00f',

@@ -236,6 +236,10 @@ h1 {
 	border: none;
 	color: #fff;
 }
+.button-link.disabled{
+	opacity: .7;
+	cursor: default;
+}
 
 a {
 	color: #0099ff;

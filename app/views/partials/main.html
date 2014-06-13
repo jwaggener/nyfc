@@ -15,19 +15,32 @@
 	<!-- verbage about creating a color -->
 	<p ng-show='user.first_name' >Welcome, <a href='{{user.link}}' target='blank'>{{user.name}}!</a><br/><span class='diminish'>Not {{user.name}}? Please <a ng-click='fbLogout()'>logout</a>.</span></p>
 	<p>PICK a color, NAME a color, CREATE a color! <span ng-hide='user.first_name'><a ng-click='fbLogin()'>Sign into your FB account</a> to OWN a color.</span></p>
-
-	<div class='col-sm-4 col-md-4 col-lg-4'>
-		<label for='colorPicker'>Pick a Color:</label><br/>
-		<nyfc-spectrum name='colorPicker'></nyfc-spectrum>
-	</div>
-
-	<!-- Add the name and submit-->
-	<div class='col-sm-4 col-md-4 col-lg-4'>
-		<label for='colorNamer'>Name Your Color:</label><br/>
-		<input type="text" ng-model="name" ng-change='changeName()' placeholder="Name Your Color!" name='colorNamer'><br/>
-		<a ng-click='submit()' class='button-link'>CREATE!</a>
-		<p ng-show='encouragement'>Make another!</p>
-	</div>
+	
+	<form name='nyfcFormController' novalidate>
+		<div class='col-sm-4 col-md-4 col-lg-4'>
+			<label for='colorPicker'>Pick a Color:</label><br/>
+			<nyfc-spectrum name='colorPicker'></nyfc-spectrum>
+		</div>
+		
+		<!-- hidden color inputs 
+		<input ng-value="{{h}}" type="hidden" name='h'>
+		<input ng-value="{{s}}" type="hidden" name='s'>
+		<input ng-value="{{l}}" type="hidden" name='l'>	
+		<input ng-value="{{rgbString}}" type="hidden" name='rgbString'>
+		-- >
+		
+		<!-- Add the name and submit-->
+		<div class='col-sm-4 col-md-4 col-lg-4'>
+			<label for='colorNamer'>Name Your Color:</label><br/>
+			<input type="text" ng-model="name" ng-change='changeName()' placeholder="Name Your Color!" name='name' required ><br/>
+			<a ng-click='submit()' class='button-link' ng-class='{disabled:!validate()}'>CREATE!</a>
+			<p>
+				<span ng-show="showError(nyfcFormController.color, 'required')">Please choose a color!</span>
+				<span ng-show="showError(nyfcFormController.name, 'required')">Please enter a color name!</span>
+				<span ng-show='encouragement'>Make another!</span>
+			</p>
+		</div>
+	</form>
 		
 	<div class='col-sm-4 col-md-4 col-lg-4'>
 		<label for='preview'>Preview:</label><br/>
