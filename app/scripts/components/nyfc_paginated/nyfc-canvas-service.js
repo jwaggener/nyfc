@@ -126,12 +126,26 @@ function NyfcCanvasService(){
 		}
 	};
 	
+	//returns a color for the text with a tone that will look good against the background color
+	function getColor(lightness){
+		return ( lightness > 0.85) ? '#191919' : '#ffffff';
+	};
+	
+	// 'background-color:rgb(255, 255, 255);color:#191919;font:bold 20px sans-serif;line-height:16.25px';
+	function getStyleString(str, rgbcolor, lightness){
+		var size = selectSize(str);
+		return 'background-color:' + rgbcolor + ';' +
+		'color:' + getColor(lightness) + ';' +
+		'font:' + 'bold ' + size.fontSize + 'px ' + 'sans-serif;' + 
+		'line-height:' + size.lineheight + 'px' + ';';
+	};
+	
 	//set the styles on the 2d context of the canvas based on the string
 	function setContextStyles(str, lightness) {
 		var size;
 		context.textAlign = 'left';
 		context.textBaseline = 'bottom';
-		context.fillStyle = ( lightness > 0.85) ? '#191919' : '#ffffff';
+		context.fillStyle = getColor(lightness);
 		
 		size = selectSize(str);
 		context.font = 'bold ' + size.fontSize * multiplier + 'px sans-serif';
@@ -167,6 +181,8 @@ function NyfcCanvasService(){
 		canvas: canvas,
 		context: context,
 		selectSize: selectSize,
+		getColor: getColor,
+		getStyleString: getStyleString,
 		setContextStyles: setContextStyles,
 		getNodes: getNodes
 	};

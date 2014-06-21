@@ -3,24 +3,19 @@ var nyfc = angular.module('nyfcApp');
 
 nyfc.controller('nyfcCreateController', function($scope, $http, NYFCFirebase, nyfcCanvasService){
 	
-	$scope.h, $scope.s, $scope.l, $scope.name, $scope.rgbString = 'hello world';
+	$scope.h, $scope.s, $scope.l, $scope.name = '',
+	$scope.rgbString = 'hello world';
+	
+	// 
 	$scope.user;
 	
 	$scope.stylesStr = 'background-color:rgb(255, 255, 255);color:#191919;font:bold 20px sans-serif;line-height:16.25px';
 	
 	$scope.hslToStyles = function() {
-		var fontColor = ($scope.l > 0.85) ? '#191919' : "#ffffff",
-		tc = tinycolor({ h: $scope.h, s: $scope.s, l: $scope.l}), //https://github.com/bgrins/TinyColor
-		bgColor = tc.toRgbString(),
-		textAlign = 'left',
-		textBaseline = 'bottom',
-		lineheight = '16.25px';
+		var tc = tinycolor({ h: $scope.h, s: $scope.s, l: $scope.l}), //https://github.com/bgrins/TinyColor
+		bgColor = tc.toRgbString();
 		
-		$scope.stylesStr = 'background-color:' + bgColor + ';' +
-			'color:' + fontColor + ';' + 
-			'font:' + 'bold 20px sans-serif;' +
-			'line-height:' + lineheight;
-
+		$scope.stylesStr = nyfcCanvasService.getStyleString($scope.name, tc.toRgbString(), $scope.l);
 		//styles will end up looking like this
 		//background-color:rgb(255, 255, 255);color:#191919;font:bold 20px sans-serif;line-height:16.25px'	
 	};
@@ -110,6 +105,10 @@ nyfc.controller('nyfcCreateController', function($scope, $http, NYFCFirebase, ny
 		}
 	};
 	
+	//watch for changes in the hue, saturation, or lightness
+	$scope.$watch('name', function(newValue, oldValue) {
+		$scope.hslToStyles();
+	});
 	//watch for changes in the hue, saturation, or lightness
 	$scope.$watch('h', function(newValue, oldValue) {
 		$scope.hslToStyles();

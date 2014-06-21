@@ -8,6 +8,11 @@ describe('service draws an image of the color with its name', function(){
 		_nyfcCanvasService = nyfcCanvasService;
 	}));
 	
+	it('should return value #191919 when the lightness passed in is over 0.85', function(){
+		var val = _nyfcCanvasService.getColor(0.86);
+		expect(val).toBe('#191919');
+	});
+	
 	it('should have a property color with a value of #191919 when the lightness value passed in is over 0.85 ', function(){
 		var str = 'hello world',
 			lightness = 0.86;
