@@ -133,6 +133,7 @@ function NyfcCanvasService(){
 	
 	// 'background-color:rgb(255, 255, 255);color:#191919;font:bold 20px sans-serif;line-height:16.25px';
 	function getStyleString(str, rgbcolor, lightness){
+		str = str || '';
 		var size = selectSize(str);
 		return 'background-color:' + rgbcolor + ';' +
 		'color:' + getColor(lightness) + ';' +
