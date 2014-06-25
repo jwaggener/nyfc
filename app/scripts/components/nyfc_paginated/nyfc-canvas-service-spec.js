@@ -4,8 +4,8 @@ describe('service draws an image of the color with its name', function(){
 	
 	beforeEach(module('nyfcApp'));
 	
-	beforeEach(inject(function(nyfcCanvasService){
-		_nyfcCanvasService = nyfcCanvasService;
+	beforeEach(inject(function(NyfcCanvasService){
+		_nyfcCanvasService = NyfcCanvasService;
 	}));
 	
 	it('should return value #191919 when the lightness passed in is over 0.85', function(){

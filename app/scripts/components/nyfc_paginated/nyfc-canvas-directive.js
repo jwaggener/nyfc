@@ -1,6 +1,6 @@
 var nyfc = angular.module('nyfcApp');
 
-nyfc.controller('nyfcCanvasController', function ($scope, $element, $attrs, nyfcCanvasService) {	
+nyfc.controller('nyfcCanvasController', function ($scope, $element, $attrs, NyfcCanvasService) {	
 
 	$scope.$watch('colorObj', function(newValue, oldValue){
 
@@ -8,7 +8,7 @@ nyfc.controller('nyfcCanvasController', function ($scope, $element, $attrs, nyfc
 			return;
 		}
 		
-		var canvas = nyfcCanvasService.getNyfcCanvas(newValue.name, newValue.color, newValue.l),
+		var canvas = NyfcCanvasService.getNyfcCanvas(newValue.name, newValue.color, newValue.l),
 			// create an image and add it to the DOM
 			img = new Image();
 		

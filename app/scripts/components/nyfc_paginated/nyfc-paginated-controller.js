@@ -1,6 +1,6 @@
 var nyfc = angular.module('nyfcApp');
 
-nyfc.controller('nyfcPaginatedController', function($scope, NYFCFirebase){
+nyfc.controller('nyfcPaginatedController', function($scope, NyfcFirebaseService){
 	
 	$scope.currentPage = null;
 	$scope.LIMIT = 20, // items per page
@@ -37,13 +37,13 @@ nyfc.controller('nyfcPaginatedController', function($scope, NYFCFirebase){
 	}
 	
 	// pagination...
-	// create a query for the initial load - grab the last 5 objects  NYFCFirebase.colors.endAt().limit(5);
+	// create a query for the initial load - grab the last 5 objects  NyfcFirebaseService.colors.endAt().limit(5);
 	// load that query and save the key for the first object of the next page; increase the limit by one
-	// retrieve the next page by using that key like this... NYFCFirebase.colors.endAt(null, '-JA3MuTS_xHMe8TymKwR').limit(6);
+	// retrieve the next page by using that key like this... NyfcFirebaseService.colors.endAt(null, '-JA3MuTS_xHMe8TymKwR').limit(6);
 	// you'll have to discard the repeated object
 	$scope.loadPage = function () {
 		//protecting my tests
-		if(!NYFCFirebase.query){
+		if(!NyfcFirebaseService.query){
 			return;
 		}
 		//remove any listeners before creating a new firebase object
@@ -54,9 +54,9 @@ nyfc.controller('nyfcPaginatedController', function($scope, NYFCFirebase){
 		var limit = ($scope.currentPage) ? $scope.LIMIT + 1 : $scope.LIMIT;
 		//if the current page is any other than 0, we have to retrieve with a record name
 		if( $scope.currentPage ) {
-			$scope.query = NYFCFirebase.query($scope.queryStr, $scope.path).endAt(null, $scope.getPageKey($scope.currentPage)).limit(limit);
+			$scope.query = NyfcFirebaseService.query($scope.queryStr, $scope.path).endAt(null, $scope.getPageKey($scope.currentPage)).limit(limit);
 		} else {
-			$scope.query = NYFCFirebase.query($scope.queryStr, $scope.path).endAt().limit(limit);
+			$scope.query = NyfcFirebaseService.query($scope.queryStr, $scope.path).endAt().limit(limit);
 		}
 		$scope.query.on('value', function (snapshot) {
 			var data = snapshot.val();

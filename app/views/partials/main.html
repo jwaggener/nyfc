@@ -33,7 +33,7 @@
 		<div class='col-sm-4 col-md-4 col-lg-4'>
 			<label for='colorNamer'>Name Your Color:</label><br/>
 			<input type="text" ng-model="name" ng-change='changeName()' placeholder="Name Your Color!" name='name' required ><br/>
-			<a ng-click='submit()' class='button-link' ng-class='{disabled:!validate()}'>CREATE!</a>
+			<a ng-click='submit()' class='button-link' ng-class='{disabled:!validate()}'>{{textSubmit}}</a>
 			<p>
 				<span ng-show="showError(nyfcFormController.color, 'required')">Please choose a color!</span>
 				<span ng-show="showError(nyfcFormController.name, 'required')">Please enter a color name!</span>

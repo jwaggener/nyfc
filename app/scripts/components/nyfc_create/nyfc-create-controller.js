@@ -1,7 +1,7 @@
 // controller for creating a new NYFC color
 var nyfc = angular.module('nyfcApp');
 
-nyfc.controller('nyfcCreateController', function($scope, $http, NYFCFirebase, nyfcCanvasService){
+nyfc.controller('nyfcCreateController', function($scope, $http, NyfcFirebaseService, NyfcCanvasService, NyfcImageService){
 	
 	$scope.h, $scope.s, $scope.l, $scope.name = '',
 	$scope.rgbString = 'hello world';
@@ -11,11 +11,18 @@ nyfc.controller('nyfcCreateController', function($scope, $http, NYFCFirebase, ny
 	
 	$scope.stylesStr = 'background-color:rgb(255, 255, 255);color:#191919;font:bold 20px sans-serif;line-height:16.25px';
 	
+	$scope.localeStrings = {
+		create: "CREATE!",
+		creating: "CREATING..."
+	};
+
+	$scope.textSubmit = $scope.localeStrings.create;
+	
 	$scope.hslToStyles = function() {
 		var tc = tinycolor({ h: $scope.h, s: $scope.s, l: $scope.l}), //https://github.com/bgrins/TinyColor
 		bgColor = tc.toRgbString();
 		
-		$scope.stylesStr = nyfcCanvasService.getStyleString($scope.name, tc.toRgbString(), $scope.l);
+		$scope.stylesStr = NyfcCanvasService.getStyleString($scope.name, tc.toRgbString(), $scope.l);
 		//styles will end up looking like this
 		//background-color:rgb(255, 255, 255);color:#191919;font:bold 20px sans-serif;line-height:16.25px'	
 	};
@@ -58,30 +65,18 @@ nyfc.controller('nyfcCreateController', function($scope, $http, NYFCFirebase, ny
 		
 		// submit the color to the service
 		// push to /colors
-	  NYFCFirebase.colors('').push(color);
+	  NyfcFirebaseService.colors('').push(color);
 		// a combination of the name and the HSL made safe for Firebase
 		var uniqueName = encodeURI(color.name),
 			num = "" + color.h + color.s + color.l;
 		uniqueName = uniqueName + String(num).replace(/\./g, '_');
 		//set all the searchable names
-		NYFCFirebase.names('/' + uniqueName).setWithPriority(color, color.name);
-		NYFCFirebase.hues('/' + uniqueName).setWithPriority(color, color.h);
-		NYFCFirebase.saturations('/' + uniqueName).setWithPriority(color, color.s);
-		NYFCFirebase.lightnesses('/' + uniqueName).setWithPriority(color, color.l);
+		NyfcFirebaseService.names('/' + uniqueName).setWithPriority(color, color.name);
+		NyfcFirebaseService.hues('/' + uniqueName).setWithPriority(color, color.h);
+		NyfcFirebaseService.saturations('/' + uniqueName).setWithPriority(color, color.s);
+		NyfcFirebaseService.lightnesses('/' + uniqueName).setWithPriority(color, color.l);
 		
-		//create an image from this
-		var nameForPict = String(color.name + '_' + color.h + '_' + color.s + '_' + color.l).split(' ').join('_'),
-			canvas = nyfcCanvasService.getNyfcCanvas(color.name, color.color, color.l);
-		$http.post(
-			'/api/nyfc',
-			{ 
-				imageData: canvas.toDataURL("image/png"),
-				name: nameForPict
-			}
-		).success(function(){
-			console.log('success message');
-		});
-
+		NyfcImageService.createImage(color);
 		
 		//user
 		// if there is a user check to see is that user exists and if not, add that user
@@ -97,7 +92,7 @@ nyfc.controller('nyfcCreateController', function($scope, $http, NYFCFirebase, ny
 					firebase.setWithPriority($scope.user, $scope.user.id);
 				} else {
 					// assume user and colors array are present and add
-					NYFCFirebase.user('/' + $scope.user.id + '/colors').push(color);
+					NyfcFirebaseService.user('/' + $scope.user.id + '/colors').push(color);
 				}
 			}).error(function(data, status, headers, config){
 				console.log('status', status);

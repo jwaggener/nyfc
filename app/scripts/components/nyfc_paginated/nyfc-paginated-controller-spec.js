@@ -8,7 +8,7 @@ describe('the controller for displaying paginated nyfc colors', function() {
 		$scope = $rootScope;
 		controller = $controller('nyfcPaginatedController',{
 			$scope: $scope,
-			NYFCFirebase: {}
+			NyfcFirebaseService: {}
 		})
 	}));
 	

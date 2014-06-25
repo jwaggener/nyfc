@@ -3,7 +3,7 @@
 // firebase is a scalable real time backend
 // http://www.firebase.com
 angular.module('nyfcApp')
-  .factory('NYFCFirebase', function() {
+  .factory('NyfcFirebaseService', function() {
 		// a list of the colors
 		var BASE_URL = 'https://nyfc.firebaseIO.com',
 		

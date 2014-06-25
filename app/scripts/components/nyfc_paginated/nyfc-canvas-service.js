@@ -189,4 +189,4 @@ function NyfcCanvasService(){
 	};
 }
 
-nyfc.service('nyfcCanvasService', NyfcCanvasService);
+nyfc.service('NyfcCanvasService', NyfcCanvasService);
